@@ -20,8 +20,9 @@ export async function getLeftMenuData() {
       icon: 'icmn icmn-home',
     },
     {
-      title: 'Settings',
-      key: 'settings',
+      title: 'Settings(billing)',
+      key: 'settingsBilling',
+      url: '/dashboard/billing',
       icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
     },
   ]

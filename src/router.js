@@ -57,6 +57,11 @@ const routes = [
     component: loadable(() => import('pages/dashboard/pranav')),
     exact: true,
   },
+  {
+    path: '/dashboard/billing',
+    component: loadable(() => import('pages/dashboard/billing')),
+    exact: true,
+  },
 
   // Default Pages
   {
