@@ -58,6 +58,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/dashboard/template',
+    component: loadable(() => import('pages/dashboard/template')),
+    exact: true,
+  },
+  {
     path: '/dashboard/billing',
     component: loadable(() => import('pages/dashboard/billing')),
     exact: true,
