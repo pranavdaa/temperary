@@ -2,17 +2,10 @@ import React from 'react';
 import {
     Form,
     Select,
-    InputNumber,
-    Switch,
-    Radio,
-    Slider,
     Button,
     Upload,
     Icon,
-    Rate,
-    Checkbox,
-    Row,
-    Col,
+    Input,
   } from 'antd';
   
   const { Option } = Select;
@@ -39,10 +32,15 @@ import {
       const { getFieldDecorator } = this.props.form;
       const formItemLayout = {
         labelCol: { span: 8 },
-        wrapperCol: { span: 14 },
+        wrapperCol: { span: 8 },
       };
       return (
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form.Item label="Note">
+          {getFieldDecorator('note', {
+            rules: [{ required: true, message: 'Please input your note!' }],
+          })(<Input />)}
+        </Form.Item>
   
           <Form.Item label="Org Logo" >
             {getFieldDecorator('orglogo', {
