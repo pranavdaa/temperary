@@ -67,6 +67,11 @@ const routes = [
     component: loadable(() => import('pages/dashboard/billing')),
     exact: true,
   },
+  {
+    path: '/dashboard/new',
+    component: loadable(() => import('pages/dashboard/new')),
+    exact: true,
+  },
 //landing Page
 {
   path: '/landingpage/one',

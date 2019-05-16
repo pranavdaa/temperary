@@ -1,7 +1,7 @@
 import React from "react" 
 import { Button ,Card ,Table } from 'antd';
 import { tableData } from './data.json'
-
+import { Link } from 'react-router-dom'
 
 class Template extends React.Component {
     render(){
@@ -19,9 +19,12 @@ class Template extends React.Component {
           ]
         return(
       <div>
-        <Card title="Certificates" extra={ <Button type="primary" icon="plus">
+        <Card title="Certificates" extra={ <Link to ="/dashboard/new"> <Button  type="primary" icon="plus">
       Add New
-    </Button>}>
+    </Button>
+    </Link>
+    }>
+    
     <div className="card-body">
 <Table
 pagination={false}
