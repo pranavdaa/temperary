@@ -31,12 +31,9 @@ class Upexl extends React.Component {
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </Form.Item></Col>
+        </Form.Item>
+      </Col>
     </Row>
-
-
-     
-        
     </Form>
     </Col>
     </Row>

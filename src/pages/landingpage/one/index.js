@@ -55,12 +55,12 @@ class LandOne extends React.Component {
         </Steps>
         <div className={styles.stepscontent}>{steps[current].content}</div>
         <div className={styles.stepsaction}>
-          {current < steps.length - 1 && (
+          {current < (steps.length - 1) && (
             <Button type="primary" onClick={() => this.next()}>
               Next
             </Button>
           )}
-          {current === steps.length - 1 && (
+          {current === (steps.length - 1) && (
             <Button type="primary" onClick={() => message.success('Processing complete!')}>
               Done
             </Button>

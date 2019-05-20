@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: '/settings/billing',
-    component: loadable(() => import('pages/settings/billing/')),
+    component: loadable(() => import('pages/settings/billing')),
     exact: true,
   },
   {
@@ -38,16 +38,16 @@ const routes = [
     exact: true,
   },
   //landing Page
-{
-  path: '/landingpage/one',
-  component: loadable(() => import('pages/landingpage/one/')),
-  exact: true,
-},
-{
-  path: '/upload/exl',
-  component: loadable(() => import('pages/upload/exl/')),
-  exact: true,
-},
+  {
+    path: '/landingpage/one',
+    component: loadable(() => import('pages/landingpage/one')),
+    exact: true,
+  },
+  {
+    path: '/upload/exl',
+    component: loadable(() => import('pages/upload/exl')),
+    exact: true,
+  },
 
   // End New Routes
 

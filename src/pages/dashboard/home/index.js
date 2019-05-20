@@ -27,13 +27,13 @@ class DashboardAlpha extends React.Component {
     })
   }
   onFileSelect = (file, fileList) => {
-    console.log(file)
+    //console.log(file)
     return false
   }
   uploadImage = () => {
     let imageData = {}
     imageData[this.state.uploadFor] = this.state.fileList[0]
-    console.log(imageData)
+    //console.log(imageData)
     this.props.updateAsset('default', imageData)
   }
 
@@ -42,8 +42,8 @@ class DashboardAlpha extends React.Component {
   }
   handleChange = ({ fileList }) => this.setState({ fileList })
   render() {
-    console.log(this.props)
-    console.log(this.state)
+    //console.log(this.props)
+    //console.log(this.state)
     const { modalVisible, loading, fileList } = this.state
     const tableColumns = [
       {
