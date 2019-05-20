@@ -56,6 +56,13 @@ const routes = [
     exact: true,
   },
 
+  //Bdoc Verification
+  {
+    path: '/bdoc/verify',
+    component: loadable(() => import('pages/bdoc/verify')),
+    exact: true,
+  },
+
   // End New Routes
 
   // System Pages

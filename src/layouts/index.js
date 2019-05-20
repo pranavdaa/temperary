@@ -7,11 +7,13 @@ import Loader from 'components/LayoutComponents/Loader'
 import PublicLayout from './Public'
 import LoginLayout from './Login'
 import MainLayout from './Main'
+import HomeLayout from './Home'
 
 const Layouts = {
   public: PublicLayout,
   login: LoginLayout,
   main: MainLayout,
+  home: HomeLayout,
 }
 
 @withRouter
@@ -52,6 +54,9 @@ class IndexLayout extends React.PureComponent {
       }
       if (/^\/user(?=\/|$)/i.test(pathname)) {
         return 'login'
+      }
+      if(pathname.includes('home')) {
+        return 'home'
       }
       return 'main'
     }
