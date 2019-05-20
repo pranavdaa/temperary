@@ -49,6 +49,13 @@ const routes = [
     exact: true,
   },
 
+  //Home
+  {
+    path: '/home',
+    component: loadable(() => import('pages/home')),
+    exact: true,
+  },
+
   // End New Routes
 
   // System Pages
@@ -302,7 +309,7 @@ class Router extends React.Component {
       <ConnectedRouter history={history}>
         <IndexLayout>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
+            <Route exact path="/" render={() => <Redirect to="/home" />} />
             {routes.map(route => (
               <Route
                 path={route.path}
