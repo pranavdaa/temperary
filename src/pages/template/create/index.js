@@ -27,7 +27,7 @@ class Adder extends React.Component {
           <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
             <Form.Item label="Select Year:">
               {getFieldDecorator('year', {
-                rules: [{ required: true, message: 'Please select your gender!' }],
+                rules: [{ required: true, message: 'Please select the Year!' }],
               })(
                 <Select
                   placeholder="Select Year"

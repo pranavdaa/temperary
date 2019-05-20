@@ -37,6 +37,17 @@ const routes = [
     component: loadable(() => import('pages/template/create')),
     exact: true,
   },
+  //landing Page
+{
+  path: '/landingpage/one',
+  component: loadable(() => import('pages/landingpage/one/')),
+  exact: true,
+},
+{
+  path: '/upload/exl',
+  component: loadable(() => import('pages/upload/exl/')),
+  exact: true,
+},
 
   // End New Routes
 

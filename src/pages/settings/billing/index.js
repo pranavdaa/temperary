@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
 import WrappedApp from './payBills'
-import WrappedApp2 from './billingHistory.js'
+import WrappedApp2 from './billingHistory'
 const tabList = [
   {
     key: 'tab1',
