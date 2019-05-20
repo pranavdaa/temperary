@@ -1,0 +1,20 @@
+.full_card {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.img_card_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.uploadWrapper {
+  display: flex;
+  justify-content: center;
+  .avatar_uploader > div > div {
+    width: auto;
+    height: 200px;
+  }
+}

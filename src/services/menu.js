@@ -2,8 +2,8 @@ export async function getLeftMenuData() {
   return [
     {
       title: 'Home',
-      key: 'dashboardPranav',
-      url: '/dashboard/pranav',
+      key: 'Dashboard',
+      url: '/dashboard',
       icon: 'icmn icmn-home',
     },
     {
@@ -14,15 +14,15 @@ export async function getLeftMenuData() {
       icon: 'icmn icmn-books',
     },
     {
-      title: 'Dashboard Alpha(templates)',
-      key: 'dashboardAlpha',
-      url: '/dashboard/alpha',
+      title: 'Templates',
+      key: 'dashboardTemplates',
+      url: '/template',
       icon: 'icmn icmn-home',
     },
     {
       title: 'Settings(billing)',
       key: 'settingsBilling',
-      url: '/dashboard/billing',
+      url: '/settings/billing',
       icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
     },
   ]

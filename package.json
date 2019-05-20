@@ -12,26 +12,10 @@
     "tslint": "tslint \"src/**/*.{ts,tsx}\"",
     "stylelint": "stylelint \"src/**/*.{scss,less}\""
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,scss,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "src/**/*.{js,jsx}": [
-      "eslint"
-    ],
-    "src/**/*.{scss,less}": [
-      "stylelint"
-    ]
-  },
   "dependencies": {
     "@rowno/sparkline": "^3.0.1",
     "antd": "^3.13.2",
+    "axios": "^0.18.0",
     "bootstrap-css-only": "^4.2.1",
     "chart.js": "^2.7.3",
     "chartist": "^0.11.0",
@@ -46,6 +30,7 @@
     "history": "^4.7.2",
     "lodash": "^4.17.11",
     "nprogress": "^0.2.0",
+    "object-path-immutable": "^3.0.2",
     "peity-react": "^0.0.7",
     "prop-types": "^15.7.1",
     "qs": "^6.6.0",

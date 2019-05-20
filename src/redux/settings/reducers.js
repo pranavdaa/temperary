@@ -14,7 +14,7 @@ const initialState = {
   ...STORED_SETTINGS({
     isMobileView: false,
     isMobileMenuOpen: false,
-    isLightTheme: true,
+    isLightTheme: false,
     isSettingsOpen: false,
     isMenuTop: false,
     isMenuCollapsed: false,

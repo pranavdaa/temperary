@@ -15,6 +15,31 @@ const loadable = loader =>
   })
 
 const routes = [
+  // New Routes
+
+  {
+    path: '/dashboard',
+    component: loadable(() => import('pages/dashboard/home')),
+    exact: true,
+  },
+  {
+    path: '/template',
+    component: loadable(() => import('pages/template')),
+    exact: true,
+  },
+  {
+    path: '/settings/billing',
+    component: loadable(() => import('pages/settings/billing/')),
+    exact: true,
+  },
+  {
+    path: '/template/create',
+    component: loadable(() => import('pages/template/create')),
+    exact: true,
+  },
+
+  // End New Routes
+
   // System Pages
   {
     path: '/user/login',
@@ -52,32 +77,7 @@ const routes = [
     component: loadable(() => import('pages/dashboard/docs')),
     exact: true,
   },
-  {
-    path: '/dashboard/pranav',
-    component: loadable(() => import('pages/dashboard/pranav')),
-    exact: true,
-  },
-  {
-    path: '/dashboard/template',
-    component: loadable(() => import('pages/dashboard/template')),
-    exact: true,
-  },
-  {
-    path: '/dashboard/billing',
-    component: loadable(() => import('pages/dashboard/billing')),
-    exact: true,
-  },
-  {
-    path: '/dashboard/new',
-    component: loadable(() => import('pages/dashboard/new')),
-    exact: true,
-  },
-//landing Page
-{
-  path: '/landingpage/one',
-  component: loadable(() => import('pages/landingpage/one/')),
-  exact: true,
-},
+
   // Default Pages
   {
     path: '/pages/login-alpha',
@@ -291,7 +291,7 @@ class Router extends React.Component {
       <ConnectedRouter history={history}>
         <IndexLayout>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/dashboard/alpha" />} />
+            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             {routes.map(route => (
               <Route
                 path={route.path}
