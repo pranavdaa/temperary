@@ -49,6 +49,12 @@ const routes = [
     exact: true,
   },
 
+  {
+    path: '/studentcert',
+    component: loadable(() => import('pages/studentcert')),
+    exact: true,
+  },
+  
   // End New Routes
 
   // System Pages
