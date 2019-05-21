@@ -5,6 +5,8 @@ import menu from './menu/reducers'
 import settings from './settings/reducers'
 
 import assets from './assets/reducers'
+import bdocCreator from './bdoc/create/reducers'
+import bdocReader from './bdoc/read/reducers'
 
 export default history =>
   combineReducers({
@@ -13,4 +15,6 @@ export default history =>
     menu,
     settings,
     assets,
+    bdocCreator,
+    bdocReader
   })

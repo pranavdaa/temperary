@@ -55,7 +55,7 @@ class IndexLayout extends React.PureComponent {
       if (/^\/user(?=\/|$)/i.test(pathname)) {
         return 'login'
       }
-      if(pathname.includes('home')) {
+      if(pathname.includes('home') || pathname.includes('bdoc')) {
         return 'home'
       }
       return 'main'
