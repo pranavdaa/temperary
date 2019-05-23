@@ -63,9 +63,6 @@ const addBdoc = async (bdocId, metadathash, publicInfo, bdocHashes, pageHashes, 
     
     const serializedTx = tx.serialize()
 
-    // console.log(serializedTx.toString('hex'));
-    // 0xf889808609184e72a00082271094000000000000000000000000000000000000000080a47f74657374320000000000000000000000000000000000000000000000000000006000571ca08a8bbf888cfa37bbf0bb965423625641fc956967b81d12e23709cead01446075a01ce999b56a8a88504be365442ea61239198e23d1fce7d00fcfc5cd3b44b7215f
-    
     web3.eth.sendSignedTransaction('0x' + 
     serializedTx.toString('hex'))
     .on('transactionHash', function(hash){
@@ -120,17 +117,17 @@ const getPageHashesMapping = (bdocId, metadathash, numOfPages, callback) => {
 
 const processGetBdocResult = result => {
     let hashes = result.substr(0,514)
-    let metadata = result.substr(514, result.length) //To get the metadata convert the data to utf-8, then remove the non-utf8 characters
+    let metadata = web3.utils.toAscii(`0x${result.substr(514)}`) //To get the metadata convert the data to utf-8, then remove the non-utf8 characters
 
     return {
         basicInfoHash: hashes.substr(0,66),
-        pagesFinalHash: `0x${hashes.substr(66,66+64)}`,
-        userInfoHash: `0x${hashes.substr(66,66+(64*2))}`,
-        userPermissionsHash: `0x${hashes.substr(66,66+(64*3))}`,
-        publicInfoHash: `0x${hashes.substr(66,66+(64*4))}`,
-        historyHash: `0x${hashes.substr(66,66+(64*5))}`,
-        workFlowHash: `0x${hashes.substr(66,66+(64*6))}`,
-        previousVersionFinalHash: `0x${hashes.substr(66,66+(64*7))}`
+        pagesFinalHash: `0x${hashes.substr(66,64)}`,
+        userInfoHash: `0x${hashes.substr(66+64,64)}`,
+        userPermissionsHash: `0x${hashes.substr(66+(64*2),64)}`,
+        publicInfoHash: `0x${hashes.substr(66+(64*3),64)}`,
+        historyHash: `0x${hashes.substr(66+(64*4),64)}`,
+        workFlowHash: `0x${hashes.substr(66+(64*5),64)}`,
+        previousVersionFinalHash: `0x${hashes.substr(66+(64*6),64)}`
     }
 
 }
