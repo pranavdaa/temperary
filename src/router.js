@@ -63,6 +63,13 @@ const routes = [
     exact: true,
   },
 
+  //Bdoc Details
+  {
+    path: '/bdoc/view',
+    component: loadable(() => import('pages/bdoc/view')),
+    exact: true,
+  },
+
   // End New Routes
 
   // System Pages
