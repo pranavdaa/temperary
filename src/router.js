@@ -49,7 +49,7 @@ const routes = [
     exact: true,
   },
 
-<<<<<<< HEAD
+
   //Home
   {
     path: '/home',
@@ -71,14 +71,13 @@ const routes = [
     exact: true,
   },
 
-=======
+  //Certificates
   {
     path: '/studentcert',
     component: loadable(() => import('pages/studentcert')),
     exact: true,
   },
-  
->>>>>>> 44285078a7a86391f3761a3d47f58dca75d2faa4
+
   // End New Routes
 
   // System Pages
