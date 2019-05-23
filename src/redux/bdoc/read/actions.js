@@ -7,77 +7,174 @@ const sha256 = require('js-sha256').sha256
 const readBdoc = bdoc => dispatch => {
     
     let files = {
+        isReading: true,
         IsValid: false,
+        validFields: [],
         metadata: {},
-        pages: []
+        pages: [],
+        error: ""
     }
 
     JSZip.loadAsync(bdoc).then(zip => {
-        Object.keys(zip.files).forEach(key => {
-        
-            //Return the pages and metadata
+        try {
+            Object.keys(zip.files).forEach(key => {
 
-            if(key.substr(key.length-1,1) === '/'){
-                //Handle Folders here
-            }
-            else{
-                //Handle Files here
-                if(key.includes('/')){
-                    
-                    files.pages.push({
-                        name: key,
-                        data: arrayBufferToString(zip.files[key]['_data'].compressedContent)
-                    })
+                //Return the pages and metadata
+                if(key.substr(key.length-1,1) === '/'){
+                    //Handle Folders here
                 }
                 else{
-
-                    files.metadata = {
-                        name: key,
-                        data: arrayBufferToString(zip.files[key]['_data'].compressedContent)
+                    //Handle Files here
+                    if(key.includes('/')){
+                        try{
+                            files.pages.push({
+                                name: key,
+                                data: arrayBufferToString(zip.files[key]['_data'].compressedContent)
+                            })
+                        }
+                        catch(error) {
+                            //PAGES FILE CORRUPTED
+                            dispatch({
+                                type: types.READ_BDOC,
+                                payload: {
+                                    ...files,
+                                    error: "pages corrupted"
+                                }
+                            })
+                            return
+                        }
+                    }
+                    else{
+                        try{
+                            files.metadata = {
+                                name: key,
+                                data: arrayBufferToString(zip.files[key]['_data'].compressedContent)
+                            }
+                        }
+                        catch(error) {
+                            //METADATA FILE CORRUPTED
+                            dispatch({
+                                type: types.READ_BDOC,
+                                payload: {
+                                    ...files,
+                                    error: "metadata file corrupted"
+                                }
+                            })
+                            return
+                        }
                     }
                 }
-            }
-        })
-        
-        //Verify the integrity of Bdoc
-
-        let metadata = JSON.parse(atob(files.metadata.data))
-        let bdocId = metadata.documentId
-
-        //Compute hashes
-        let hashes = generateHashes(files)
-        
-        //IsValid is used to check the integrity of the bdoc 
-        let IsValid;
-
-        //Check if the pageHashes match
-        hashes.pagesHash.map((page, index) => {
-            IsValid = (page.hash.toString() === metadata.pages[index].hash.toString())
-        })
-
-        //Check if the bdoc Exists on the Blockchain with respective metadataHash
-        getBdocMapping(bdocId, hashes.metadataHash, (err, result) => {
-            IsValid = IsValid && !!Object.keys(result).length
-            files.IsValid = IsValid
+            })
             
-            //Dispatch action according to the verification result
+            //Verify the integrity of Bdoc
+            let metadata, bdocId
+            try{
+                metadata = JSON.parse(atob(files.metadata.data))
+                bdocId = metadata.documentId
+            }
+            catch(error) {
+                //METADATA FILE CORRUPTED
+                dispatch({
+                    type: types.READ_BDOC,
+                    payload: {
+                        ...files,
+                        error: "metadata file corrupted"
+                    }
+                })
+                return
+            }
+
+            //Compute hashes
+            let hashes = generateHashes(files)
+    
+            let lock = false
+
+            //Check if the number of pagesHashes and pages are equal
+            if(hashes.pagesHash.length === metadata.pages.length) {
+                //Check if the pageHashes match
+                hashes.pagesHash.map((page, index) => {
+                    if(page.hash.toString() != metadata.pages[index].hash.toString()) {
+                        lock = true
+                        dispatch({
+                            type: types.READ_BDOC,
+                            payload: {
+                                ...files,
+                                error: `page ${index+1} corrupted`
+                            }
+                        })
+                        return
+                    }
+                })
+                
+                if(lock) {
+                    return
+                }
+                else {
+                    files.validFields.push("Verified Pages")
+                }
+
+                //Check if the bdoc Exists on the Blockchain with respective metadataHash
+                getBdocMapping(bdocId, hashes.metadataHash, (err, result) => {
+                    if(result.basicInfoHash === `0x0000000000000000000000000000000000000000000000000000000000000000`) {
+                        dispatch({
+                            type: types.READ_BDOC,
+                            payload: {
+                                ...files,
+                                error: `bdoc not registered on blockchain`
+                            }
+                        })
+                        return
+                    }
+                    files.IsValid = true
+                    files.metadata.blockchainData = result
+                    files.validFields.push("Verified Document Id")
+                    files.validFields.push("Verified Metadata")
+                    files.validFields.push("Verified Basic Info")
+                    files.validFields.push("Verified User Info")
+                    files.validFields.push("Verified Public Info")
+                    files.validFields.push("Verified Version History")
+                    
+                    //Dispatch action according to the verification result
+                    dispatch({
+                        type: types.READ_BDOC,
+                        payload: files
+                    })
+                    return
+                })
+            }
+            else{
+                dispatch({
+                    type: types.READ_BDOC,
+                    payload: {
+                        ...files,
+                        error: "pages or metadata file corrupted"
+                    }
+                })
+                return
+            }
+        }
+        catch(error) {
+            console.error(error)
             dispatch({
                 type: types.READ_BDOC,
-                payload: files
+                payload: {
+                    ...files,
+                    error: "bdoc file corrupted"
+                }
             })
-        })
+        }
+        
     })
-
 }
+
+const completeReading = ({
+    type: types.READ_COMPLETE
+})
 
 const arrayBufferToString = buffer => {
     return btoa(new Uint8Array(buffer).reduce(function (data, byte) {
         return data + String.fromCharCode(byte);
     }, ''))
-}
-
-const verifyBdoc = (bdoc, callback) => {
-    callback(null, true)
 }
 
 const generateHashes = files => {
@@ -107,5 +204,6 @@ const sanatize = data => {
 }
 
 export default {
-    readBdoc
+    readBdoc,
+    completeReading
 }
