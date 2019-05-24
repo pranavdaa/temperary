@@ -41,6 +41,7 @@
     "qs": "^6.6.0",
     "rc-drawer": "^1.7.7",
     "react": "^16.8.1",
+    "react-ace": "^6.5.0",
     "react-c3js": "^0.1.20",
     "react-chartist": "^0.13.3",
     "react-chartjs-2": "^2.7.4",

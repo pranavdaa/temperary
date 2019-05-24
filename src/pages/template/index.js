@@ -7,7 +7,7 @@ class Template extends React.Component {
   render() {
     const tableColumns = [
       {
-        title: 'Certificate Name',
+        title: 'Template Name',
         dataIndex: 'action',
         key: 'action',
       },
@@ -20,7 +20,7 @@ class Template extends React.Component {
     return (
       <div>
         <Card
-          title="Certificates"
+          title="Templates"
           extra={
             <Link to="/template/create">
               <Button type="primary" icon="plus">
