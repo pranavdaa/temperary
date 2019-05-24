@@ -1,18 +1,14 @@
 import React from 'react'
-import { Table, Row, Col, Card, Modal, Button, Upload, Icon } from 'antd'
+import { Table, Row, Col, Card, Modal, Button, Upload, Icon, Empty } from 'antd'
 import { Helmet } from 'react-helmet'
 import Authorize from 'components/LayoutComponents/Authorize'
-import { tableData } from './data.json'
 import ProfileHeadCard from 'components/CleanUIComponents/ProfileHeadCard'
 import styles from './style.module.scss'
-import { runInThisContext } from 'vm'
 import { connect } from 'react-redux'
-import * as actions from '../../../redux/assets/actions'
+import * as assetActions from '../../../redux/assets/actions'
+import feedActions from '../../../redux/activityFeed/actions'
 
-@connect(
-  ({ assets }) => ({ assets }),
-  actions,
-)
+
 class DashboardAlpha extends React.Component {
   state = {
     loading: false,
@@ -26,35 +22,49 @@ class DashboardAlpha extends React.Component {
       uploadFor,
     })
   }
+
   onFileSelect = (file, fileList) => {
     //console.log(file)
     return false
   }
+
   uploadImage = () => {
     let imageData = {}
     imageData[this.state.uploadFor] = this.state.fileList[0]
-    //console.log(imageData)
     this.props.updateAsset('default', imageData)
   }
 
   handleCancel = () => {
     this.setState({ modalVisible: false })
   }
+
   handleChange = ({ fileList }) => this.setState({ fileList })
+
+  componentWillMount() {
+    const { getActivityFeed, getDefaultAssets } = this.props
+    getActivityFeed()
+
+    if(!Object.keys(this.props.assets.default).length) {
+        getDefaultAssets('default')
+    }
+  }
+
   render() {
-    //console.log(this.props)
-    //console.log(this.state)
     const { modalVisible, loading, fileList } = this.state
+    const { feed, assets } = this.props;
+    console.log(this.props)
+    console.log("assets",assets)
+    console.log("defa",assets.default)
     const tableColumns = [
       {
         title: 'Action',
-        dataIndex: 'action',
-        key: 'action',
+        key: 'activity',
+        dataIndex: 'activity',
       },
       {
         title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
       },
     ]
     const uploadButton = (
@@ -81,14 +91,15 @@ class DashboardAlpha extends React.Component {
               </div>
             </Card>
           </Col>
+          {/* TODO [Parmesh]: Make the activity Feed scrollable */}
           <Col lg={12}>
             <Card title={'Recently Activities'}>
-              <Table pagination={false} columns={tableColumns} dataSource={tableData} />
+              <Table pagination={false} columns={tableColumns} dataSource={feed} />
             </Card>
           </Col>
         </Row>
         <Row gutter={12}>
-          <Col md={8}>
+          <Col md={6}>
             <Card
               title={
                 <div className={styles.img_card_title}>
@@ -97,11 +108,17 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              <ProfileHeadCard />
+              {
+                assets.default.orgLogoPath ? 
+                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`}/>
+                :
+                <Empty />
+              }
+              
             </Card>
           </Col>
 
-          <Col md={8}>
+          <Col md={6}>
             <Card
               title={
                 <div className={styles.img_card_title}>
@@ -110,19 +127,46 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              <ProfileHeadCard />
+              {
+                assets.default.orgStampPath ? 
+                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`}/>
+                :
+                <Empty />
+              }
             </Card>
           </Col>
-          <Col md={8}>
+          <Col md={6}>
             <Card
               title={
                 <div className={styles.img_card_title}>
                   <span>Authority Signature</span>
-                  <span onClick={e => this.showModal('authSign')}> Edit</span>
+                  <span onClick={e => this.showModal('authoritySig')}> Edit</span>
                 </div>
               }
             >
-              <ProfileHeadCard />
+              {
+                assets.default.authoritySigPath ? 
+                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.authoritySigPath}`}/>
+                :
+                <Empty />
+              }
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card
+              title={
+                <div className={styles.img_card_title}>
+                  <span>Background</span>
+                  <span onClick={e => this.showModal('background')}> Edit</span>
+                </div>
+              }
+            >
+              {
+                assets.default.backgroundPath ? 
+                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`}/>
+                :
+                <Empty />
+              }
             </Card>
           </Col>
         </Row>
@@ -159,4 +203,15 @@ class DashboardAlpha extends React.Component {
   }
 }
 
-export default DashboardAlpha
+const mapStateToProps = state =>({
+    feed: state.activityFeed,
+    assets: {...state.assets}
+})
+
+const mapDispatchToProps = dispatch => ({
+    getActivityFeed: () => dispatch(feedActions()),
+    updateAsset: (assetType, assetPaths) => dispatch(assetActions.updateAsset(assetType, assetPaths)),
+    getDefaultAssets: payload => dispatch(assetActions.fetchDefaultAssets(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardAlpha)

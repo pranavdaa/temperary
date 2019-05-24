@@ -1,3 +1,4 @@
-export const actionTypes = {
-  ASSETS_UPDATE: 'ASSETS_UPDATE',
+module.exports = {
+  UPDATE_ASSETS: 'UPDATE_ASSETS',
+  FETCH_DEFAULT_ASSETS: 'FETCH_DEFAULT_ASSETS'
 }

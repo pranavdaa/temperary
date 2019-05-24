@@ -1,4 +1,4 @@
-import { actionTypes } from './types'
+import actionTypes from './types'
 
 const initialState = {
   default: {},
@@ -6,10 +6,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ASSETS_UPDATE:
-      state[action.payload.assetType] = assets
-      return state
+    
+    case actionTypes.UPDATE_ASSETS:
+        state[action.payload.assetType] = {...action.payload.assets}
+        return state
+
     default:
-      return state
+        return state
   }
 }

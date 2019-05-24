@@ -5,6 +5,7 @@ import menu from './menu/reducers'
 import settings from './settings/reducers'
 
 import assets from './assets/reducers'
+import activityFeed from './activityFeed/reducers'
 import bdocCreator from './bdoc/create/reducers'
 import bdocReader from './bdoc/read/reducers'
 
@@ -15,6 +16,7 @@ export default history =>
     menu,
     settings,
     assets,
+    activityFeed,
     bdocCreator,
     bdocReader
   })
