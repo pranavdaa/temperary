@@ -10,12 +10,10 @@ class ProfileHeadCard extends React.Component {
         <div
           className={styles.head}
           style={{
-            backgroundImage: `url('${user.cover}')`,
+            backgroundImage: `url('${this.props.backgroundImage}')`,
           }}
         >
-          
         </div>
-       
       </div>
     )
   }
