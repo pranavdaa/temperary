@@ -44,17 +44,15 @@ class DashboardAlpha extends React.Component {
     const { getActivityFeed, getDefaultAssets } = this.props
     getActivityFeed()
 
-    if(!Object.keys(this.props.assets.default).length) {
-        getDefaultAssets('default')
+    if (!Object.keys(this.props.assets.default).length) {
+      getDefaultAssets('default')
     }
   }
 
   render() {
     const { modalVisible, loading, fileList } = this.state
     const { feed, assets } = this.props;
-    console.log(this.props)
-    console.log("assets",assets)
-    console.log("defa",assets.default)
+
     const tableColumns = [
       {
         title: 'Action',
@@ -109,12 +107,12 @@ class DashboardAlpha extends React.Component {
               }
             >
               {
-                assets.default.orgLogoPath ? 
-                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`}/>
-                :
-                <Empty />
+                assets.default.orgLogoPath ?
+                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`} />
+                  :
+                  <Empty />
               }
-              
+
             </Card>
           </Col>
 
@@ -128,10 +126,10 @@ class DashboardAlpha extends React.Component {
               }
             >
               {
-                assets.default.orgStampPath ? 
-                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`}/>
-                :
-                <Empty />
+                assets.default.orgStampPath ?
+                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`} />
+                  :
+                  <Empty />
               }
             </Card>
           </Col>
@@ -145,10 +143,10 @@ class DashboardAlpha extends React.Component {
               }
             >
               {
-                assets.default.authoritySigPath ? 
-                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.authoritySigPath}`}/>
-                :
-                <Empty />
+                assets.default.authoritySigPath ?
+                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.authoritySigPath}`} />
+                  :
+                  <Empty />
               }
             </Card>
           </Col>
@@ -162,10 +160,10 @@ class DashboardAlpha extends React.Component {
               }
             >
               {
-                assets.default.backgroundPath ? 
-                <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`}/>
-                :
-                <Empty />
+                assets.default.backgroundPath ?
+                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`} />
+                  :
+                  <Empty />
               }
             </Card>
           </Col>
@@ -203,15 +201,15 @@ class DashboardAlpha extends React.Component {
   }
 }
 
-const mapStateToProps = state =>({
-    feed: state.activityFeed,
-    assets: {...state.assets}
+const mapStateToProps = state => ({
+  feed: state.activityFeed,
+  assets: { ...state.assets }
 })
 
 const mapDispatchToProps = dispatch => ({
-    getActivityFeed: () => dispatch(feedActions()),
-    updateAsset: (assetType, assetPaths) => dispatch(assetActions.updateAsset(assetType, assetPaths)),
-    getDefaultAssets: payload => dispatch(assetActions.fetchDefaultAssets(payload))
+  getActivityFeed: () => dispatch(feedActions()),
+  updateAsset: (assetType, assetPaths) => dispatch(assetActions.updateAsset(assetType, assetPaths)),
+  getDefaultAssets: payload => dispatch(assetActions.fetchDefaultAssets(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardAlpha)
