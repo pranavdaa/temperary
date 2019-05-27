@@ -29,10 +29,10 @@ class UploadExcel extends React.Component {
 
     render() {
         var { fileList, uploading } = this.state
-        var { parsedExcel } = this.props
+        var { pendingCertificates } = this.props
         
         //TODO: FIX the error in the logs
-        if(parsedExcel.length > 0) {
+        if(pendingCertificates.length > 0) {
             this.props.history.push('/studentcert', this.props)
         }
  
@@ -79,7 +79,7 @@ class UploadExcel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    parsedExcel: state.certificates.pending
+    pendingCertificates: state.certificates.pending
 })
 
 const mapDispatchToProps = dispatch => ({
