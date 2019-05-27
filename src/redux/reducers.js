@@ -3,9 +3,9 @@ import { connectRouter } from 'connected-react-router'
 import user from './user/reducers'
 import menu from './menu/reducers'
 import settings from './settings/reducers'
-
-import assets from './assets/reducers'
 import activityFeed from './activityFeed/reducers'
+import assets from './assets/reducers'
+import templates from './templete/reducers'
 import bdocCreator from './bdoc/create/reducers'
 import bdocReader from './bdoc/read/reducers'
 
@@ -16,6 +16,7 @@ export default history =>
     menu,
     settings,
     assets,
+    templates,
     activityFeed,
     bdocCreator,
     bdocReader
