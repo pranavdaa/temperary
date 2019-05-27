@@ -1,47 +1,89 @@
 import React from 'react'
-import { Card, Form , Icon,Upload,Row, Col ,Button } from 'antd';
+import { Card, Icon, Upload, Row, Col, Button } from 'antd';
+// import {withRouter} from "react-router-dom"
+//Redux
+import { connect } from 'react-redux'
+import { parseExcelToJson } from '../../../redux/certificates/actions'
 
-class Upexl extends React.Component {
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Card>
-      <Row type="flex" justify="center">
-      <Col span={12}>
-      
-        <Form>
-             <Form.Item label="">
-          <div className="dropbox">
-            {getFieldDecorator('dragger', {
-              valuePropName: 'fileList',
-              getValueFromEvent: this.normFile,
-            })(
-              <Upload.Dragger name="files" action="/upload.do">
+class UploadExcel extends React.Component {
+    state = {
+        fileList: [],
+        uploading: false,
+    }
+
+    handleUpload = () => {
+        const { fileList } = this.state
+        
+        const formData = new FormData()
+        
+        fileList.forEach(file => {
+            formData.append(`excel`, file);
+        })
+    
+        this.props.parseExcelToJson(formData)
+
+        this.setState({
+          uploading: true,
+        })
+    }
+
+    render() {
+        var { fileList, uploading } = this.state
+        var { parsedExcel } = this.props
+        
+        //TODO: FIX the error in the logs
+        if(parsedExcel.length > 0) {
+            this.props.history.push('/studentcert', this.props)
+        }
+ 
+        let uploadProps = {
+            beforeUpload: file => {
+                this.setState(state => ({
+                fileList: [...state.fileList, file],
+                }))
+                return false
+            },
+            onRemove: file => {
+                this.setState(state => ({
+                    fileList: state.fileList.filter(_file => _file.name != file.name)
+                }))
+            },
+            fileList,
+        }
+
+        return (
+        <Card>
+        <Row type="flex" justify="center">
+        <Col span={12}>
+            <center>
+            <Upload.Dragger {...uploadProps}>
                 <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
+                <Icon type="inbox" />
                 </p>
-                <p className="ant-upload-text">Upload the downloaded Exel Sheet <br /> with the details provided in the sheet</p>
-              </Upload.Dragger>,
-            )}
-          </div>
-        </Form.Item>
-        <Row type="flex" justify="end">
-      <Col span={4}>   
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Col>
-    </Row>
-    </Form>
-    </Col>
-    </Row>
-    </Card>
-    )
-  }
+                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+                band files
+                </p>
+            </Upload.Dragger>
+            <br /><br />
+            <Button type="primary" onClick={this.handleUpload}>
+                Next
+            </Button>
+            </center>
+        </Col>
+        </Row>
+        </Card>
+        )
+    }
 }
 
-const UploadExl = Form.create({ name: 'validate_other' })(Upexl);
+const mapStateToProps = state => ({
+    parsedExcel: state.certificates.pending
+})
 
-export default UploadExl
+const mapDispatchToProps = dispatch => ({
+    parseExcelToJson: payload => dispatch(parseExcelToJson(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadExcel)

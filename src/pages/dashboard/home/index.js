@@ -3,6 +3,7 @@ import { Table, Row, Col, Card, Modal, Button, Upload, Icon, Empty } from 'antd'
 import { Helmet } from 'react-helmet'
 import Authorize from 'components/LayoutComponents/Authorize'
 import ProfileHeadCard from 'components/CleanUIComponents/ProfileHeadCard'
+import { NavLink } from 'react-router-dom'
 import styles from './style.module.scss'
 import { connect } from 'react-redux'
 import * as assetActions from '../../../redux/assets/actions'
@@ -83,10 +84,10 @@ class DashboardAlpha extends React.Component {
               <div className="utils__title">
                 <div className={'text-center'}>
                   <i className="lnr lnr-plus-circle" />
-                  <a href="/">
+                  <NavLink to="/template/create">
                     {' '}
                     <strong>Generated New Certificate</strong>{' '}
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </Card>

@@ -305,11 +305,12 @@ class EditableTable extends React.Component {
                         }}
                     />
                 </EditableContext.Provider>
+                <Button type="primary">Generate</Button>
             </Card>
-        );
+        )
     }
 }
 
-const EditableFormTable = Form.create()(EditableTable);
+const EditableFormTable = Form.create()(EditableTable)
 export default EditableFormTable
 // ReactDOM.render(<EditableFormTable />, mountNode);
