@@ -2,7 +2,7 @@ import types from './types'
 import axios from '../../utils/cors/axios'
 import constants from '../constants'
 
-const getActivityFeed = payload => dispatch => {
+const getTemplates = payload => dispatch => {
     axios
         .get(
             '/templates',
@@ -21,4 +21,4 @@ const getActivityFeed = payload => dispatch => {
         })
 }
 
-export default getActivityFeed
+export default getTemplates

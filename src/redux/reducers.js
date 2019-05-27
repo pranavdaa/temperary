@@ -5,7 +5,7 @@ import menu from './menu/reducers'
 import settings from './settings/reducers'
 import activityFeed from './activityFeed/reducers'
 import assets from './assets/reducers'
-import templates from './templete/reducers'
+import templates from './template/reducers'
 import bdocCreator from './bdoc/create/reducers'
 import bdocReader from './bdoc/read/reducers'
 

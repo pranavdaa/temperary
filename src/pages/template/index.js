@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Card, Table } from 'antd'
 import { Link } from 'react-router-dom'
-import feedActions from '../../redux/templeteGet/actions'
+import feedActions from '../../redux/template/actions'
 import { connect } from 'react-redux'
+import getTemplates from '../../redux/template/actions';
 class Template extends React.Component {
   componentWillMount = () => {
-    const { getActivityFeed, getDefaultAssets } = this.props
-    getActivityFeed()
-
+    const { getTemplates } = this.props
+    getTemplates()
   }
 
   render() {
@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getActivityFeed: () => dispatch(feedActions()),
+  getTemplates: () => dispatch(getTemplates()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Template)
 
