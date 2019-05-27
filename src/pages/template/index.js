@@ -1,19 +1,28 @@
-import React from 'react'
+import React from 'react';
 import { Button, Card, Table } from 'antd'
-import { tableData } from './data.json'
 import { Link } from 'react-router-dom'
-
+import feedActions from '../../redux/templeteGet/actions'
+import { connect } from 'react-redux'
 class Template extends React.Component {
+  componentWillMount = () => {
+    const { getActivityFeed, getDefaultAssets } = this.props
+    getActivityFeed()
+
+  }
+
   render() {
+    console.log(this.props.templates)
+    const { templates } = this.props;
+
     const tableColumns = [
       {
         title: 'Certificate Name',
-        dataIndex: 'action',
+        dataIndex: 'name',
         key: 'action',
       },
       {
         title: 'Date',
-        dataIndex: 'date',
+        dataIndex: 'createdAt',
         key: 'date',
       },
     ]
@@ -29,11 +38,20 @@ class Template extends React.Component {
             </Link>
           }
         >
-          <Table pagination={false} columns={tableColumns} dataSource={tableData} />
+          <Table pagination={false} columns={tableColumns} dataSource={templates} />
+
         </Card>
       </div>
     )
   }
 }
 
-export default Template
+const mapStateToProps = state => ({
+  templates: [...state.templates],
+})
+
+const mapDispatchToProps = dispatch => ({
+  getActivityFeed: () => dispatch(feedActions()),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Template)
+
