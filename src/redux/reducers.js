@@ -8,6 +8,7 @@ import assets from './assets/reducers'
 import templates from './template/reducers'
 import bdocCreator from './bdoc/create/reducers'
 import bdocReader from './bdoc/read/reducers'
+import certificates from './certificates/reducers'
 
 export default history =>
   combineReducers({
@@ -19,5 +20,6 @@ export default history =>
     templates,
     activityFeed,
     bdocCreator,
-    bdocReader
+    bdocReader,
+    certificates
   })
