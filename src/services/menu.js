@@ -7,10 +7,9 @@ export async function getLeftMenuData() {
       icon: 'icmn icmn-home',
     },
     {
-      title: 'Documentation(Certificates)',
-      key: 'documentation',
-      url: 'https://docs.cleanuitemplate.com/react/getting-started',
-      target: '_blank',
+      title: 'Certificates',
+      key: 'certificates',
+      url: '/certificates',
       icon: 'icmn icmn-books',
     },
     {

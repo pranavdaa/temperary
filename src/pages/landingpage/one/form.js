@@ -8,6 +8,7 @@ import {
   Input,
 } from 'antd';
 import * as assetActions from '../../../redux/assets/actions'
+import { createTemplate } from "redux/template/actions"
 import { connect } from 'react-redux'
 import feedActions from '../../../redux/activityFeed/actions'
 
@@ -54,9 +55,8 @@ class Demo extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         this.props.addAsset('default', this.state.uploadList)
-
+        this.props.createTemplate('default', this.state.uploadList)
       }
-
     });
   };
 
@@ -86,7 +86,7 @@ class Demo extends React.Component {
       wrapperCol: { span: 8 },
     };
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <Form id="tempForm" {...formItemLayout} ref={this.props.formref} onSubmit={this.handleSubmit}>
         <Form.Item label="Note">
           {getFieldDecorator('note', {
             rules: [{ required: true, message: 'Please input your note!' }],

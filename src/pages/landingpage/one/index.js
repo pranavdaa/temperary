@@ -10,42 +10,25 @@ import Editor from '../editor/'
 
 const Step = Steps.Step
 
-const steps = [
-  {
-    title: 'First',
-
-    content: (
-      <div>
-        <FormUpload />
-      </div>
-    ),
-
-  },
-  {
-    title: 'Second',
-    content: (
-      <div>
-        <Editor />
-      </div>
-    ),
-  },
-  {
-    title: 'Last',
-    content: 'Last-content',
-  },
-]
 
 class LandOne extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: 1,
+      current: 0,
     }
   }
 
   next() {
     const current = this.state.current + 1
     this.setState({ current })
+  }
+  onNextPress = () => {
+    console.log(this.tempForm.refs)
+    if (this.state.current == 0) {
+      this.tempForm.dispatch(new Event('submit'))
+    } else
+      this.next()
   }
 
   prev() {
@@ -55,6 +38,30 @@ class LandOne extends React.Component {
 
   render() {
 
+    const steps = [
+      {
+        title: 'First',
+
+        content: (
+          <div>
+            <FormUpload formref={(e) => { this.tempForm = e }} />
+          </div>
+        ),
+
+      },
+      {
+        title: 'Second',
+        content: (
+          <div>
+            <Editor />
+          </div>
+        ),
+      },
+      {
+        title: 'Last',
+        content: 'Last-content',
+      },
+    ]
 
     const { current } = this.state;
 
@@ -69,11 +76,19 @@ class LandOne extends React.Component {
           </Steps>
           <div className={styles.stepscontent}>{steps[current].content}</div>
           <div className={styles.stepsaction}>
-
-            {current < (steps.length - 1) && (
-              <Button type="primary" onClick={() => this.next()}>
-                Next
+            {current > 0 && (
+              <Button className="mr-2" onClick={() => this.prev()}>
+                Previous
             </Button>
+
+            )}
+            {current < (steps.length - 1) && (
+              //   <Button type="primary" onClick={() => this.onNextPress()}>
+              //     Next
+              // </Button>
+              <Button type="primary" form="tempForm" key="submit" htmlType="submit">
+                Next
+        </Button>
             )}
             {current === (steps.length - 1) && (
               <Button type="primary" onClick={() => message.success('Processing complete!')}>
@@ -81,14 +96,7 @@ class LandOne extends React.Component {
             </Button>
 
             )}
-            {current > 0 && (
-              <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                Previous
 
-
-            </Button>
-
-            )}
           </div>
         </div>
       </Card>
