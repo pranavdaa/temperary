@@ -4,8 +4,8 @@ const initialState = []
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case types.GET_ACTIVITY_FEED:
-            return action.payload
+        case types.GET_TEMPLATE:
+            return [...action.payload]
 
         default:
             return state

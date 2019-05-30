@@ -2,39 +2,24 @@ import React from "react"
 import { Table, Card, Input, InputNumber, Popconfirm, Form, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 
-const data = [
-    {
-        "key": "1",
-        "sname": "Pranav Maheshwari",
-        "srn": "110",
-        "email": "pranavmaheshwari431@gmail.com",
-        "cname": "blockchain yatra",
-        "mo": "100",
-        "result": "Pass",
-    },
-    {
-        "key": "2",
-        "sname": "Vaibhav SAini",
-        "srn": "211",
-        "email": "vasa@gmail.com",
-        "cname": "towardsblockchain",
-        "mo": "78",
-        "result": "Fail",
-    }
-];
+//Redux
+import { connect } from 'react-redux'
+import { getAllCertificates, generateCertificates } from '../../redux/certificates/actions'
 
 
-const EditableContext = React.createContext();
+const EditableContext = React.createContext()
 
 class EditableCell extends React.Component {
+
     getInput = () => {
         if (this.props.inputType === 'number') {
             return <InputNumber />;
         }
         return <Input />;
-    };
+    }
 
     renderCell = ({ getFieldDecorator }) => {
+        
         const {
             editing,
             dataIndex,
@@ -44,7 +29,8 @@ class EditableCell extends React.Component {
             index,
             children,
             ...restProps
-        } = this.props;
+        } = this.props
+
         return (
             <td {...restProps}>
                 {editing ? (
@@ -72,109 +58,11 @@ class EditableCell extends React.Component {
 }
 
 class EditableTable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { data, editingKey: '', searchText: '' };
-        this.columns = [
-            {
-                title: 'Student Name',
-                dataIndex: 'sname',
-                sorter: (a, b) => a.sname.length - b.sname.length,
-                sortDirections: ['descend', 'ascend'],
-                ...this.getColumnSearchProps('sname'),
-                editable: true,
+    
+    state = { rows: [], editingKey: '', searchText: '', columns: [] }
+    
+    generateKey = name => (name.toLocaleLowerCase().replace(' ', '_'))
 
-            },
-            {
-                title: 'Student Roll Number',
-                dataIndex: 'srn',
-                ...this.getColumnSearchProps('srn'),
-                editable: true,
-
-            },
-            {
-                title: 'Email',
-                dataIndex: 'email',
-                ...this.getColumnSearchProps('email'),
-                editable: true,
-
-            },
-            {
-                title: 'Course Name',
-                dataIndex: 'cname',
-                filters: [
-                    {
-                        text: 'Btech',
-                        value: 'btech',
-                    },
-                    {
-                        text: 'Mtech',
-                        value: 'mtech',
-                    },
-                ],
-                filterMultiple: false,
-                onFilter: (value, record) => record.address.indexOf(value) === 0,
-                sorter: (a, b) => a.address.length - b.address.length,
-                sortDirections: ['descend', 'ascend'],
-                ...this.getColumnSearchProps('cname'),
-                editable: true,
-
-            },
-            {
-                title: 'Marks Obtained',
-                dataIndex: 'mo',
-                sorter: (a, b) => a.mo.length - b.mo.length,
-                sortDirections: ['descend', 'ascend'],
-                editable: true,
-
-            },
-            {
-                title: 'Result',
-                dataIndex: 'result',
-                editable: true,
-
-            },
-            {
-                title: 'Edit',
-                dataIndex: 'edit',
-                render: (text, record) => {
-                    const { editingKey } = this.state;
-                    const editable = this.isEditing(record);
-                    return editable ? (
-                        <span>
-                            <EditableContext.Consumer>
-                                {form => (
-                                    <a
-                                        href="javascript:;"
-                                        onClick={() => this.save(form, record.key)}
-                                        style={{ marginRight: 8 }}
-                                        className="primary"
-                                    >
-                                        Save
-                                    </a>
-                                )}
-                            </EditableContext.Consumer>
-                            <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-                                <a>
-                                    Cancel
-                                </a>
-                            </Popconfirm>
-                        </span>
-                    ) : (
-                            <a className="text-primary" disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-                                <Button>  Edit </Button>
-                            </a>
-                        );
-                },
-            },
-            {
-                title: 'Preview',
-                dataIndex: 'preview',
-                key: 'x',
-                render: () => <a href="javascript:;">Link</a>,
-            }
-        ];
-    }
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -232,21 +120,21 @@ class EditableTable extends React.Component {
 
     handleReset = clearFilters => {
         clearFilters();
-        this.setState({ searchText: '' });
+        this.setState({ searchText: '' })
     };
 
     isEditing = record => record.key === this.state.editingKey;
 
     cancel = () => {
-        this.setState({ editingKey: '' });
-    };
+        this.setState({ editingKey: '' })
+    }
 
     save(form, key) {
         form.validateFields((error, row) => {
             if (error) {
                 return;
             }
-            const newData = [...this.state.data];
+            const newData = [...this.state.rows];
             const index = newData.findIndex(item => key === item.key);
             if (index > -1) {
                 const item = newData[index];
@@ -266,38 +154,131 @@ class EditableTable extends React.Component {
         this.setState({ editingKey: key });
     }
 
+    componentWillMount() {
+        const { pendingCertificates } = this.props
+        var tempColumns = []
+
+        if(pendingCertificates[0]) {
+
+            //Add Custom Columns from Excel Sheet
+            tempColumns = Object.keys(pendingCertificates[0]).map(key => {
+                return {
+                    'title': key,
+                    'dataIndex': this.generateKey(key),
+                    sorter: (a, b) => a.sname.length - b.sname.length,
+                    sortDirections: ['descend', 'ascend'],
+                    ...this.getColumnSearchProps(this.generateKey(key)),
+                    editable: true,
+                }
+            })        
+
+            //Add 'Edit' & 'preview' columns
+            tempColumns.push({
+                title: 'Edit',
+                dataIndex: 'edit',
+                render: (text, record) => {
+                    const { editingKey } = this.state;
+                    const editable = this.isEditing(record);
+                    return editable ? (
+                        <span>
+                            <EditableContext.Consumer>
+                                {form => (
+                                    <a
+                                        href="javascript:;"
+                                        onClick={() => this.save(form, record.key)}
+                                        style={{ marginRight: 8 }}
+                                        className="primary"
+                                    >
+                                        Save
+                                    </a>
+                                )}
+                            </EditableContext.Consumer>
+                            <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
+                                <a>
+                                    Cancel
+                                </a>
+                            </Popconfirm>
+                        </span>
+                    ) : (
+                            <a className="text-primary" disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+                                <Button>  Edit </Button>
+                            </a>
+                        );
+                },
+            },
+            {
+                title: 'Preview',
+                dataIndex: 'preview',
+                key: 'x',
+                render: () => <a href="javascript:;">Link</a>,
+            })
+
+            //Set Columns to Local State
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    columns: tempColumns
+                }
+            })
+
+            //Processing State to Form Rows data
+
+            let rowMapping = {}
+            tempColumns.map(column => {
+                rowMapping[column.title] = column.dataIndex
+            })
+
+            let data = pendingCertificates.map((certificate, index) => {
+                let tempRow = {}
+                for (var key in certificate) {
+                    if (certificate.hasOwnProperty(key)) {
+                    var val = certificate[key]
+                    tempRow[rowMapping[key]] = val
+                    }
+                }
+                tempRow.key = index
+                return {
+                    ...tempRow
+                }
+            })
+
+            console.log("DATA: ", data)
+
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    rows: data
+                }
+            })
+
+        }
+    }
+
     render() {
+
+        const { generateCertificates } = this.props 
+
         const components = {
             body: {
                 cell: EditableCell,
             },
-        };
+        }
 
-        const columns = this.columns.map(col => {
-            if (!col.editable) {
-                return col;
-            }
-            return {
-                ...col,
-                onCell: record => ({
-                    record,
-                    inputType: (col.dataIndex === 'mo' || col.dataIndex === 'result') ? 'number' : 'text',
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    editing: this.isEditing(record),
-                }),
-            };
-        });
+        var formData = new FormData()
+        formData.append('templateId', 'TEMPLATE_ID')
+        formData.append('certificate', JSON.stringify('TEMPLATE_JSON'))
 
+/*         formData.append('excel', )
+ */
         return (
             <Card>
                 <EditableContext.Provider value={this.props.form}>
                     <Table
                         components={components}
                         bordered
-                        dataSource={this.state.data}
+                        dataSource={this.state.rows}
                         // dataSource={data}
-                        columns={columns}
+                        columns={this.state.columns}
                         rowClassName="editable-row"
                         pagination={{
                             onChange: this.cancel,
@@ -305,11 +286,24 @@ class EditableTable extends React.Component {
                         }}
                     />
                 </EditableContext.Provider>
+                <Button 
+                    type="primary"
+                    onClick={generateCertificates()}>
+                    Generate
+                </Button>
             </Card>
-        );
+        )
     }
 }
 
-const EditableFormTable = Form.create()(EditableTable);
-export default EditableFormTable
+const mapStateToProps = state => ({
+    pendingCertificates: state.certificates.pending
+})
+
+const mapDispatchToProps = dispatch => ({
+    generateCertificates: payload => dispatch(generateCertificates(payload))
+})
+
+const EditableFormTable = Form.create()(EditableTable)
+export default connect(mapStateToProps, mapDispatchToProps)(EditableFormTable)
 // ReactDOM.render(<EditableFormTable />, mountNode);
