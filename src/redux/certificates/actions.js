@@ -33,6 +33,27 @@ export const getAllCertificates = payload => dispatch => {
 
 export const generateCertificates = payload => dispatch => {
     //on success dispatch getAllCertificates
+    axios
+    .post(`/certificates`, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${constants.JWT}`,
+      },
+    })
+    .then(res => {
+        if(res.data.status === 'success') {
+            dispatch({
+                type: types.GENERATE_CERTIFICATES,
+                payload: res.data.msg
+            })
+        }
+        else {
+            console.error("Failed to fetch Org Data")
+        }
+    })
+    .catch(error => {
+      console.error(`Error while updating Org Templates: ${error}`)
+    })
 }
 
 export const changeCertificateState = payload => dispatch => {
