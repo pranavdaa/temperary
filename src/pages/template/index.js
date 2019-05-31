@@ -3,7 +3,7 @@ import { Button, Card, Table } from 'antd'
 import { Link } from 'react-router-dom'
 import feedActions from '../../redux/template/actions'
 import { connect } from 'react-redux'
-import getTemplates from '../../redux/template/actions';
+import { getTemplates } from '../../redux/template/actions';
 class Template extends React.Component {
   componentWillMount = () => {
     const { getTemplates } = this.props
@@ -16,8 +16,9 @@ class Template extends React.Component {
 
     const tableColumns = [
       {
-        title: 'Certificate Name',
-        dataIndex: 'name',
+
+        title: 'Template Name',
+        dataIndex: 'action',
         key: 'action',
       },
       {
@@ -29,7 +30,7 @@ class Template extends React.Component {
     return (
       <div>
         <Card
-          title="Certificates"
+          title="Templates"
           extra={
             <Link to="/template/create">
               <Button type="primary" icon="plus">

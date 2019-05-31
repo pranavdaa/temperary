@@ -3,93 +3,102 @@ import React, { Component, Fragment } from 'react'
 //Antd
 import { Empty, Table } from 'antd'
 
+import { Collapse } from 'antd';
+
+
 class Index extends Component {
-    render() {
-        var metadata = this.props.metadata, details
+  render() {
+    var metadata = this.props.metadata, details
 
-        if(metadata) {
-            const columns = [
-                {
-                  title: 'Field',
-                  dataIndex: 'field',
-                },
-                {
-                  title: 'Value',
-                  dataIndex: 'value',
-                },
-            ]
+    if (metadata) {
+      const columns = [
+        {
+          title: 'Field',
+          dataIndex: 'field',
+        },
+        {
+          title: 'Value',
+          dataIndex: 'value',
+        },
+      ]
 
-            var data = [
-                {
-                  key: '1',
-                  field: 'John Brown',
-                  value: 32,
-                },
-            ]
-            
-            var blockchainData = metadata.blockchainData
-            metadata = JSON.parse(atob(metadata.data))
+      var data = [
+        {
+          key: '1',
+          field: 'John Brown',
+          value: 32,
+        },
+      ]
+
+      var blockchainData = metadata.blockchainData
+      metadata = JSON.parse(atob(metadata.data))
 
 
-            var generalRows = {
-                "name": "Name", 
-                "createdOn": "Created On",
-                "createdBy": "Created By",
-                "documentType": "Type",
-                "modifiedBy": "Issued By",
-                "modifiedOn": "Issued On"
-            }
+      var generalRows = {
+        "name": "Name",
+        "createdOn": "Created On",
+        "createdBy": "Created By",
+        "documentType": "Type",
+        "modifiedBy": "Issued By",
+        "modifiedOn": "Issued On"
+      }
 
-            var advancedRows = {
-                "basicInfoHash": "BasicInfo Hash",
-                "historyHash": "History Hash",
-                "pagesFinalHash": "Pages Final Hash",
-                "previousVersionFinalHash": "Previous Version Final Hash",
-                "publicInfoHash": "Pulic Info Hash",
-                "userInfoHash": "User Info Hash",
-                "userPermissionsHash": "User Permission Hash",
-                "workFlowHash": "Work Flow Hash"
-            }
+      var advancedRows = {
+        "basicInfoHash": "BasicInfo Hash",
+        "historyHash": "History Hash",
+        "pagesFinalHash": "Pages Final Hash",
+        "previousVersionFinalHash": "Previous Version Final Hash",
+        "publicInfoHash": "Pulic Info Hash",
+        "userInfoHash": "User Info Hash",
+        "userPermissionsHash": "User Permission Hash",
+        "workFlowHash": "Work Flow Hash"
+      }
 
-            var generalDetails = [], advancedDetails = []
+      var generalDetails = [], advancedDetails = []
 
-            //[General Details] Document Id
-            generalDetails.push({ key: generalDetails.length, field: 'Document Id', value: metadata.documentId })
+      //[General Details] Document Id
+      generalDetails.push({ key: generalDetails.length, field: 'Document Id', value: metadata.documentId })
 
-            //[General Details] Public Info
-            for (var key in metadata.publicInfo) {
-                if (metadata.publicInfo.hasOwnProperty(key)) {
-                    generalDetails.push({ key: generalDetails.length, field: generalRows[key], value: metadata.publicInfo[key] })
-                }
-            }
-
-            //[Advanced Details]
-            advancedDetails.push({ key: advancedDetails.length, field: 'Document Id', value: metadata.documentId })
-            advancedDetails.push({ key: advancedDetails.length, field: 'Blockchain', value: metadata.contexts[metadata.blockchainInfo.context].name })
-
-            for (var key in blockchainData) {
-                if (blockchainData.hasOwnProperty(key)) {
-                  advancedDetails.push({ key: advancedDetails.length, field: advancedRows[key], value: blockchainData[key] })
-                }
-            }
-
-            details = <Fragment>
-                <h4>General Details</h4>
-                <Table columns={columns} dataSource={generalDetails} size="middle" />
-                <h4>Advanced Details</h4>
-                <Table columns={columns} dataSource={advancedDetails} size="middle" />
-                </Fragment>
+      //[General Details] Public Info
+      for (var key in metadata.publicInfo) {
+        if (metadata.publicInfo.hasOwnProperty(key)) {
+          generalDetails.push({ key: generalDetails.length, field: generalRows[key], value: metadata.publicInfo[key] })
         }
+      }
 
-        return <Fragment> { details || <Empty /> } </Fragment>
+      //[Advanced Details]
+      advancedDetails.push({ key: advancedDetails.length, field: 'Document Id', value: metadata.documentId })
+      advancedDetails.push({ key: advancedDetails.length, field: 'Blockchain', value: metadata.contexts[metadata.blockchainInfo.context].name })
+
+      for (var key in blockchainData) {
+        if (blockchainData.hasOwnProperty(key)) {
+          advancedDetails.push({ key: advancedDetails.length, field: advancedRows[key], value: blockchainData[key] })
+        }
+      }
+
+      details =
+        <Fragment>
+          <h4>General Details</h4>
+          <Table columns={columns} pagination={false} dataSource={generalDetails} size="middle" />
+          <div className=" mt-5">
+            <Collapse bordered={false} >
+              <Collapse.Panel header={(<h4 className="text-primary" >Advanced Details</h4>)} key="1">
+                <Table columns={columns} pagination={false} dataSource={advancedDetails} size="middle" />
+              </Collapse.Panel>
+            </Collapse>
+          </div>
+        </Fragment>
     }
+
+    return <Fragment> {details || <Empty />} </Fragment>
+  }
 }
 
 export default Index
 
 /**
- * 
- * 
+ *
+ *
  * {
   "contexts": [
     {
