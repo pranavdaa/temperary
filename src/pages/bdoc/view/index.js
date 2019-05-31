@@ -1,36 +1,65 @@
 import React, { Component } from 'react'
 
 //Antd
-import { Tabs } from 'antd'
+import { Tabs, Card } from 'antd'
 const TabPane = Tabs.TabPane
 
 //React-Redux
 import { connect } from 'react-redux'
 
 import Documents from './documents'
-import Details from './details' 
+import Details from './details'
 
 //Assets
 import './styles.css'
 import 'antd/dist/antd.css'
 
+const tabListNoTitle = [
+    {
+        key: 'Document',
+        tab: 'Document',
+    },
+    {
+        key: 'Details',
+        tab: 'Details',
+    },
+
+];
+
+
 class Index extends Component {
+    state = {
+        noTitleKey: 'Document',
+    };
+
     tableChangeHandler = () => {
 
     }
-    
+    onTabChange = (key, type) => {
+        console.log(key, type);
+        this.setState({ [type]: key });
+    };
+
     render() {
         const { bdocDetails } = this.props
-        
+        const contentListNoTitle = {
+            Document: <Documents pages={bdocDetails.pages} />,
+            Details: <Details metadata={bdocDetails.metadata} />,
+        };
         return (
-            <Tabs onChange={this.tableChangeHandler} type="card">
-                <TabPane tab="Documents" key="1">
-                    <Documents pages={bdocDetails.pages}/>
-                </TabPane>
-                <TabPane tab="Details" key="2">
-                    <Details metadata={bdocDetails.metadata}/>
-                </TabPane>
-            </Tabs>
+            <div>
+                <Card
+                    style={{ width: '100%' }}
+                    title="Document View"
+                    tabList={tabListNoTitle}
+                    activeTabKey={this.state.noTitleKey}
+                    onTabChange={key => {
+                        this.onTabChange(key, 'noTitleKey');
+                    }}
+                >
+                    {contentListNoTitle[this.state.noTitleKey]}
+                </Card>
+            </div>
         )
     }
 }

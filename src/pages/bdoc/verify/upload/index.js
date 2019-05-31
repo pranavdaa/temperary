@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 //Antd
-import { Upload, message } from 'antd'
+import { Upload, message, Card, Row, Col } from 'antd'
 
 //Assets
 import back from '../../../../assets/signy/images/left-arrow@2x.png'
@@ -24,29 +24,37 @@ class Index extends Component {
         }
 
         return (
-        <Fragment>
-            <img src={back} />
-            <center>
-                <h1>For Verification</h1>
-                <p>
-                    Verify your Bdoc without sign-in
-                </p>
+            <Row type="flex" justify="center">
 
-                <br/><br/>
-                <Upload {...props} style={{ cursor: 'pointer', backgroundColor: '#e4e9f0'}}>
-                    <p className="ant-upload-drag-icon">
-                        <img src={upload} />
+                <Col xs={24} md={20} lg={12} xl={10}>
+                    <Card>
+                        <Fragment>
+
+                            <center>
+                                <h1>For Verification</h1>
+                                <p>
+                                    Verify your Bdoc without sign-in
+                </p>
+                                <Upload.Dragger className="py-2" {...props} style={{ cursor: 'pointer', backgroundColor: '#e4e9f0' }}>
+                                    <p className="ant-upload-drag-icon">
+                                        <img src={upload} className="pt-2" />
+                                    </p>
+                                    <br />
+                                    <h4>Click or drag file to this area to upload</h4>
+                                    <p className="ant-upload-hint py-2">
+                                        Please upload one Bdoc at a time
                     </p>
-                    <br/>
-                    <h4>Click or drag file to this area to upload</h4>
-                    <p className="ant-upload-hint">
-                        Please upload one Bdoc at a time
-                    </p>
-                </Upload>
-            </center>
-        </Fragment>
+                                </Upload.Dragger>
+                            </center>
+                        </Fragment>
+                    </Card>
+                </Col>
+
+            </Row>
         )
     }
 }
+
+
 
 export default Index
