@@ -4,7 +4,6 @@ import React, { Component, Fragment } from 'react'
 import { Upload, message, Card, Row, Col } from 'antd'
 
 //Assets
-import back from '../../../../assets/signy/images/left-arrow@2x.png'
 import upload from '../../../../assets/signy/images/arrows@2x.png'
 
 
