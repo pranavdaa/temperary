@@ -3,12 +3,8 @@ import styles from './style.module.scss'
 
 class Index extends React.Component {
   render() {
-    let images = {
-      orgLogo: 'orgLogo',
-      orgStamp: 'stamp',
-      authoritySig: 'sign',
-      background: 'bg',
-    }
+    console.log(this.props)
+    let { images } = this.props
 
     console.log('Asdasd', styles.page)
     var docJson = this.props.docJson
@@ -19,7 +15,7 @@ class Index extends React.Component {
           {docJson.components.map((element, i) => {
             switch (element.type) {
               case 'img':
-                var imagesrc = images[element.src.replace('{', '').replace('}', '')]
+                var imagesrc = images ? images[element.src.replace('{', '').replace('}', '')] : ''
                 return <img src={imagesrc} style={{ position: 'absolute', ...element.style }} />
 
               case 'text':

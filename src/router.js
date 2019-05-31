@@ -45,7 +45,7 @@ const routes = [
   //landing Page
   {
     path: '/landingpage/one',
-    component: loadable(() => import('pages/landingpage/one')),
+    component: loadable(() => import('pages/landingpage/')),
     exact: true,
   },
   {
@@ -53,7 +53,6 @@ const routes = [
     component: loadable(() => import('pages/upload/exl')),
     exact: true,
   },
-
 
   //Home
   {
@@ -96,7 +95,6 @@ const routes = [
     component: loadable(() => import('pages/user/forgot')),
     exact: true,
   },
-
 ]
 
 class Router extends React.Component {

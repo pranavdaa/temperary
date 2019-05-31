@@ -1,15 +1,13 @@
-
 import React from 'react'
 import { Steps, Button, message } from 'antd'
 
-
 import styles from './index.module.scss'
-import FormUpload from './form.js'
+import FormUpload from './one/form.js'
 import { Card } from 'antd'
-import Editor from '../editor/'
+import Editor from './editor'
+import Preview from './preview/index'
 
 const Step = Steps.Step
-
 
 class LandOne extends React.Component {
   constructor(props) {
@@ -19,16 +17,12 @@ class LandOne extends React.Component {
     }
   }
 
-  next() {
+  next = () => {
     const current = this.state.current + 1
     this.setState({ current })
   }
   onNextPress = () => {
-    console.log(this.tempForm.refs)
-    if (this.state.current == 0) {
-      this.tempForm.dispatch(new Event('submit'))
-    } else
-      this.next()
+    if (this.state.current == 1) this.next()
   }
 
   prev() {
@@ -37,17 +31,15 @@ class LandOne extends React.Component {
   }
 
   render() {
-
     const steps = [
       {
         title: 'First',
 
         content: (
           <div>
-            <FormUpload formref={(e) => { this.tempForm = e }} />
+            <FormUpload next={this.next} />
           </div>
         ),
-
       },
       {
         title: 'Second',
@@ -59,11 +51,18 @@ class LandOne extends React.Component {
       },
       {
         title: 'Last',
-        content: 'Last-content',
+        content: (
+          <div>
+            <Preview />
+          </div>
+        ),
       },
     ]
 
-    const { current } = this.state;
+    let nextButtonProps =
+      this.state.current == 0 ? { form: 'tempForm', key: 'submit', htmlType: 'submit' } : {}
+
+    const { current } = this.state
 
     return (
       <Card>
@@ -79,24 +78,21 @@ class LandOne extends React.Component {
             {current > 0 && (
               <Button className="mr-2" onClick={() => this.prev()}>
                 Previous
-            </Button>
-
+              </Button>
             )}
-            {current < (steps.length - 1) && (
+            {current < steps.length - 1 && (
               //   <Button type="primary" onClick={() => this.onNextPress()}>
               //     Next
               // </Button>
-              <Button type="primary" form="tempForm" key="submit" htmlType="submit">
+              <Button type="primary" {...nextButtonProps} onClick={this.onNextPress}>
                 Next
-        </Button>
+              </Button>
             )}
-            {current === (steps.length - 1) && (
+            {current === steps.length - 1 && (
               <Button type="primary" onClick={() => message.success('Processing complete!')}>
                 Done
-            </Button>
-
+              </Button>
             )}
-
           </div>
         </div>
       </Card>

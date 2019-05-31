@@ -1,13 +1,23 @@
 import types from './types'
 
-const initialState = []
+const initialState = {
+  template: '',
+  orgLogo: undefined,
+  authoritySig: undefined,
+  orgStamp: undefined,
+  background: undefined,
+  name: '',
+}
 
 export default (state = initialState, action) => {
-    switch (action.type) {
-        case types.GET_TEMPLATE:
-            return [...action.payload]
+  switch (action.type) {
+    case types.TEMPLATE_GET:
+      return { ...action.payload }
 
-        default:
-            return state
-    }
+    case types.TEMPLATE_SET:
+      return { ...state, ...action.payload }
+
+    default:
+      return state
+  }
 }

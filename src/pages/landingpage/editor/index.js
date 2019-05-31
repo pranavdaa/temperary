@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'antd'
-import Previewer from './previewer'
+import Previewer from '../component/previewer'
 import AceEditor from 'react-ace'
-
+import { connect } from 'react-redux'
+import { setTemplate } from 'redux/template/actions'
+import { loadImage } from 'utils/helpers/'
 import 'brace/mode/json'
 import 'brace/theme/monokai'
 
+@connect(
+  ({ templates }) => ({ templates }),
+  { setTemplate },
+)
 class Index extends Component {
   constructor(props) {
     super(props)
@@ -89,8 +95,23 @@ class Index extends Component {
     this.state = {
       pageComponents: this.pageComponents,
     }
+    this.fetchImage()
   }
+
+  fetchImage = async () => {
+    this.setState({
+      images: {
+        orgLogo: await loadImage(this.props.templates.orgLogo),
+        authoritySig: await loadImage(this.props.templates.authoritySig),
+        orgStamp: await loadImage(this.props.templates.orgStamp),
+        background: await loadImage(this.props.templates.background),
+      },
+    })
+  }
+
   render() {
+    console.log(this.props)
+    console.log(this.state)
     let editorValue = this.state.pageComponents
     let pageComponents = this.state.pageComponents
     try {
@@ -113,6 +134,7 @@ class Index extends Component {
                 try {
                   let jsonDoc = JSON.parse(value)
                   this.setState({ ...this.state, pageComponents: jsonDoc })
+                  this.props.setTemplate({ template: jsonDoc })
                 } catch (error) {}
               }}
               fontSize={14}
@@ -131,7 +153,7 @@ class Index extends Component {
           </div>
         </Col>
         <Col md={12}>
-          <Previewer docJson={pageComponents} />
+          <Previewer docJson={pageComponents} images={this.state.images} />
         </Col>
       </Row>
     )
