@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import UploadPage from './upload'
 import LoaderPage from './loader'
-import ResultPage from './result'
 
 //Actions
 import bdocReader from '../../../redux/bdoc/read/actions'
@@ -13,20 +12,20 @@ class Index extends Component {
         const { filesToBdoc, readBdoc, bdocFiles, completeReading } = this.props
         let CurrentPage
 
-        if(!Object.keys(bdocFiles).length) {
+        if (!Object.keys(bdocFiles).length) {
             CurrentPage = UploadPage
         }
-        else if(bdocFiles.isReading) {
-            CurrentPage = LoaderPage
-            setTimeout(() => {
-                completeReading()
-            }, 3000)
-        }
         else {
-            CurrentPage = ResultPage
+            CurrentPage = LoaderPage
+            if (bdocFiles.isReading)
+                setTimeout(() => {
+                    completeReading()
+                }, 3000)
         }
+
+        console.log("test", this.props, CurrentPage)
         return (
-            <CurrentPage data={this.props}/>
+            <CurrentPage data={this.props} />
         )
     }
 }

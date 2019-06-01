@@ -288,6 +288,7 @@ class EditableTable extends React.Component {
                 </EditableContext.Provider>
                 <Button 
                     type="primary"
+                    //pass
                     onClick={generateCertificates()}>
                     Generate
                 </Button>

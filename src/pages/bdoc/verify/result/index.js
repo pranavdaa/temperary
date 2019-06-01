@@ -6,14 +6,14 @@ class Index extends Component {
     render() {
         const { data } = this.props
         let Result
-
-        if(data.bdocFiles.IsValid) {
+        console.log("HIT", data);
+        if (data.data.bdocFiles.IsValid) {
             Result = Success
         }
         else {
             Result = Failed
         }
-        return <Result data={data.bdocFiles}/>
+        return <Result data={data.data.bdocFiles} />
     }
 }
 
