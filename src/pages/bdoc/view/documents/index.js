@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Tabs } from 'antd'
 const { TabPane } = Tabs
-
+import style from './style.module.scss'
 //Antd
 import { Empty } from 'antd'
 
@@ -22,7 +22,7 @@ class Index extends Component {
                       'https://www.wkkf.org/-/media/images/resource-directory/pdf-placeholder.png'
                     }
                     width="60"
-                    height="78"
+                    height="70"
                   />
                 </span>
               }
@@ -41,12 +41,12 @@ class Index extends Component {
             <TabPane
               tab={
                 <span>
-                  <img src={`data:application/jpeg;base64,${page.data}`} width="60" height="78" />
+                  <img src={`data:application/jpeg;base64,${page.data}`} width="60" height="65" />
                 </span>
               }
               key={index + 1}
             >
-              <img src={`data:image/jpeg;base64,${page.data}`} width="60" height="78" />
+              <img src={`data:image/jpeg;base64,${page.data}`} className={style.center} />
             </TabPane>
           )
         }
