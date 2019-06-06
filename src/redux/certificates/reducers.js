@@ -19,6 +19,9 @@ export default (state = initialState, action) => {
         ...state,
         generated: action.payload,
       }
+    case types.CHANGE_CERTIFICATE_STATES:
+      state[action.payload.assetType] = { ...action.payload.assets }
+      return state
 
     default:
       return state

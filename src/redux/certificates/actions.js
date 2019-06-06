@@ -44,7 +44,30 @@ export const getAllCertificates = payload => dispatch => {
       console.error(`Error while fetching cert data ${err}`)
     })
 }
+export const updateCertificateStatus = (assetType, assetPaths) => dispatch => {
+  let formData = new FormData()
+  Object.keys(assetPaths).forEach(key => {
+    formData.append(key, assetPaths[key].originFileObj)
+  })
 
+  axios
+    .patch(`/certificates`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${constants.JWT}`,
+      },
+    })
+    .then(res => {
+      if (res.data.status === 'success') {
+        fetchDefaultAssets(assetType)
+      } else {
+        console.error('Failed to update certificates')
+      }
+    })
+    .catch(error => {
+      console.error(`Error while updating Org Templates: ${error}`)
+    })
+}
 export const generateCertificates = payload => dispatch => {
   //on success dispatch getAllCertificates
   axios

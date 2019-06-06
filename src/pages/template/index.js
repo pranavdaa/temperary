@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 import { Button, Card, Table } from 'antd'
 import { Link } from 'react-router-dom'
 import feedActions from '../../redux/template/actions'
 import { connect } from 'react-redux'
-import { getTemplates } from '../../redux/template/actions';
+import { getTemplates } from '../../redux/template/actions'
+
 class Template extends React.Component {
   componentWillMount = () => {
     const { getTemplates } = this.props
@@ -12,14 +13,13 @@ class Template extends React.Component {
 
   render() {
     console.log(this.props.templates)
-    const { templates } = this.props;
+    const { templates } = this.props
 
     const tableColumns = [
       {
-
         title: 'Template Name',
-        dataIndex: 'action',
-        key: 'action',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         title: 'Date',
@@ -40,7 +40,6 @@ class Template extends React.Component {
           }
         >
           <Table pagination={false} columns={tableColumns} dataSource={templates} />
-
         </Card>
       </div>
     )
@@ -54,5 +53,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getTemplates: () => dispatch(getTemplates()),
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Template)
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Template)
+// export default Template

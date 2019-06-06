@@ -10,6 +10,8 @@ import 'react-image-lightbox/style.css'
 import style from './style.module.scss'
 import * as getCertificate from '../../redux/certificates/actions'
 import { connect } from 'react-redux'
+import axios from '../../utils/cors/axios'
+import constants from '../../redux/constants'
 
 class Cert extends React.Component {
   state = {
@@ -23,6 +25,7 @@ class Cert extends React.Component {
     isOpen3: false,
     columns: [],
     rows: [],
+    templates: {},
   }
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -85,12 +88,10 @@ class Cert extends React.Component {
   }
 
   onSelectChange = selectedRowKeys => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys)
     this.setState({ selectedRowKeys })
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter)
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
@@ -116,7 +117,6 @@ class Cert extends React.Component {
       },
     })
   }
-
   componentWillMount() {
     this.props.getAllCertificates()
   }
@@ -124,16 +124,40 @@ class Cert extends React.Component {
   generateKey = key => {
     return key.replace(/ /g, '_')
   }
+
+  getTemplateId = id => {
+    axios
+      .get(`/template?templateId=${id}`, {
+        headers: { Authorization: `Bearer ${constants.JWT}` },
+      })
+      .then(res => {
+        let templateData = res.data.msg[0]
+        let imgLinks = {
+          orgLogoPath: templateData.orgLogoPath,
+          orgStampPath: templateData.orgStampPath,
+          authoritySigPath: templateData.authoritySigPath,
+        }
+        let newTemplates = { ...this.state.templates }
+        newTemplates[id] = imgLinks
+        this.setState({ templates: { ...newTemplates } })
+      })
+      .catch(err => {
+        console.error('Error while fetching Template from axios ')
+      })
+  }
+
   componentWillReceiveProps(newProps) {
     const { allcerts } = newProps
     var tempColumns = []
-    console.log('New prop', newProps.allcerts)
+
+    const temIdArray = allcerts.map(value => value.orgId)
     if (allcerts[0]) {
       tempColumns = Object.keys(newProps.allcerts[0].details).map(key => {
         return {
           title: key,
           dataIndex: key,
-          sorter: (a, b) => a.sname.length - b.sname.length,
+          // object a me se key name ka value dhundana hai
+          sorter: (a, b) => a[key].length - b[key].length,
           sortDirections: ['descend', 'ascend'],
           ...this.getColumnSearchProps(this.generateKey(key)),
         }
@@ -142,54 +166,97 @@ class Cert extends React.Component {
       tempColumns.push(
         {
           title: 'University Logo',
-          dataIndex: 'img',
+          dataIndex: 'templateId',
           key: 'x',
-          render: (allcerts, row) => (
-            <input
-              type="image"
-              src={allcerts}
-              alt="Submit"
-              className={style.cert_img}
-              height="48"
-              onClick={() => {
-                this.setState({ isOpen: true, imageUrl: allcerts })
-              }}
-            />
-          ),
-        },
-        {
-          title: 'University Stamp',
-          dataIndex: 'pic',
-          key: 'y',
-          render: (allcerts, row) => (
-            <input
-              type="image"
-              src={allcerts}
-              alt="Submit"
-              className={style.cert_img}
-              height="48"
-              onClick={() => {
-                this.setState({ isOpen: true, imageUrl: allcerts })
-              }}
-            />
-          ),
+          render: (tempId, row) => {
+            if (this.state.templates[tempId]) {
+              return (
+                <input
+                  type="image"
+                  src={
+                    window.SITE_CONFIG.IMG_URL +
+                    (this.state.templates[tempId] && this.state.templates[tempId].orgLogoPath)
+                  }
+                  alt="Submit"
+                  className={style.cert_img}
+                  height="48"
+                  onClick={() => {
+                    this.setState({
+                      isOpen: true,
+                      imageUrl:
+                        window.SITE_CONFIG.IMG_URL +
+                        (this.state.templates[tempId] && this.state.templates[tempId].orgLogoPath),
+                    })
+                  }}
+                />
+              )
+            } else {
+              return null
+            }
+          },
         },
         {
           title: 'Authority Signature',
-          dataIndex: 'sig',
+          dataIndex: 'templateId',
+          key: 'y',
+          render: (tempId, row) => {
+            if (this.state.templates[tempId]) {
+              return (
+                <input
+                  type="image"
+                  src={
+                    window.SITE_CONFIG.IMG_URL +
+                    (this.state.templates[tempId] && this.state.templates[tempId].authoritySigPath)
+                  }
+                  alt="Submit"
+                  className={style.cert_img}
+                  height="48"
+                  onClick={() => {
+                    this.setState({
+                      isOpen: true,
+                      imageUrl:
+                        window.SITE_CONFIG.IMG_URL +
+                        (this.state.templates[tempId] &&
+                          this.state.templates[tempId].authoritySigPath),
+                    })
+                  }}
+                />
+              )
+            } else {
+              return null
+            }
+          },
+        },
+        {
+          title: 'Authority Signature',
+          dataIndex: 'templateId',
           key: 'z',
-          render: (allcerts, row) => (
-            <input
-              type="image"
-              src={allcerts}
-              alt="Submit"
-              className={style.cert_img}
-              height="48"
-              onClick={() => {
-                this.setState({ isOpen: true, imageUrl: allcerts })
-              }}
-            />
-          ),
+          render: (tempId, row) => {
+            if (this.state.templates[tempId]) {
+              return (
+                <input
+                  type="image"
+                  src={
+                    window.SITE_CONFIG.IMG_URL +
+                    (this.state.templates[tempId] && this.state.templates[tempId].orgStampPath)
+                  }
+                  alt="Submit"
+                  className={style.cert_img}
+                  height="48"
+                  onClick={() => {
+                    this.setState({
+                      isOpen: true,
+                      imageUrl:
+                        window.SITE_CONFIG.IMG_URL +
+                        (this.state.templates[tempId] && this.state.templates[tempId].orgStampPath),
+                    })
+                  }}
+                />
+              )
+            } else {
+              return null
+            }
+          },
         },
       )
 
@@ -204,16 +271,21 @@ class Cert extends React.Component {
       tempColumns.map(column => {
         rowMapping[column.title] = column.dataIndex
       })
-      console.log('allcertsyaaaaaa', newProps.allcerts[0].details)
+      let tempIdInfoArr = allcerts.map(value => value.templateId)
+      let uniquetempInforArr = [...new Set(tempIdInfoArr)]
+      uniquetempInforArr.forEach(tempId => {
+        this.getTemplateId(tempId)
+      })
+
       let data = allcerts.map((certificate, index) => {
         let tempRow = certificate.details
 
         tempRow.key = index
+        tempRow.templateId = certificate.templateId
         return {
           ...tempRow,
         }
       })
-      console.log('this is it from the data ', data)
 
       this.setState(prevState => {
         return {
@@ -226,7 +298,6 @@ class Cert extends React.Component {
 
   render() {
     const { allcerts } = this.props
-
     let {
       loading,
       selectedRowKeys,
@@ -243,6 +314,106 @@ class Cert extends React.Component {
     const hasSelected = selectedRowKeys.length > 0
     sortedInfo = sortedInfo || {}
     filteredInfo = filteredInfo || {}
+    // const columns = [
+    //   {
+    //     title: 'Student Name',
+    //     dataIndex: 'sname',
+    //     key: 'sname',
+    //     fixed: 'left',
+    //     sorter: (a, b) => a.sname.length - b.sname.length,
+    //     sortOrder: sortedInfo.columnKey === 'sname' && sortedInfo.order,
+    //     ...this.getColumnSearchProps('sname'),
+    //   },
+    //   {
+    //     title: 'Student Roll Number',
+    //     dataIndex: 'srnum',
+    //     key: 'srnum',
+    //     sorter: (a, b) => a.srnum - b.srnum,
+    //     sortOrder: sortedInfo.columnKey === 'srnum' && sortedInfo.order,
+    //     ...this.getColumnSearchProps('srnum'),
+    //   },
+    //   {
+    //     title: 'Email',
+    //     dataIndex: 'email',
+    //     key: 'email',
+    //     sorter: (a, b) => a.email.length - b.email.length,
+    //     sortOrder: sortedInfo.columnKey === 'email' && sortedInfo.order,
+    //     ...this.getColumnSearchProps('email'),
+    //   },
+    //   {
+    //     title: 'Course Name',
+    //     dataIndex: 'cname',
+    //     key: 'cname',
+    //     sorter: (a, b) => a.cname.length - b.cname.length,
+    //     sortOrder: sortedInfo.columnKey === 'cname' && sortedInfo.order,
+    //     ...this.getColumnSearchProps('cname'),
+    //   },
+    //   {
+    //     title: 'Marks Obtained',
+    //     dataIndex: 'mo',
+    //     key: 'mo',
+    //     sorter: (a, b) => a.mo - b.mo,
+    //     sortOrder: sortedInfo.columnKey === 'mo' && sortedInfo.order,
+    //     ...this.getColumnSearchProps('mo'),
+    //   },
+    //   {
+    //     title: 'Result',
+    //     dataIndex: 'result',
+    //     key: 'result',
+    //   },
+    //   {
+    //     title: 'University Logo',
+    //     dataIndex: 'img',
+    //     key: 'x',
+    //     render: (allcerts, row) => (
+    //       <input
+    //         type="image"
+    //         src={allcerts}
+    //         alt="Submit"
+    //         className={style.cert_img}
+    //         height="48"
+    //         onClick={() => {
+    //           this.setState({ isOpen: true, imageUrl: allcerts })
+    //         }}
+    //       />
+    //     ),
+    //   },
+    //   {
+    //     title: 'University Stamp',
+    //     dataIndex: 'pic',
+    //     key: 'y',
+    //     render: (allcerts, row) => (
+    //       <input
+    //         type="image"
+    //         src={allcerts}
+    //         alt="Submit"
+    //         className={style.cert_img}
+    //         height="48"
+    //         onClick={() => {
+    //           this.setState({ isOpen: true, imageUrl: allcerts })
+    //         }}
+    //       />
+    //     ),
+    //   },
+    //   {
+    //     title: 'Authority Signature',
+    //     dataIndex: 'sig',
+    //     key: 'z',
+    //     render: (allcerts, row) => (
+    //       <input
+    //         type="image"
+    //         src={allcerts}
+    //         alt="Submit"
+    //         className={style.cert_img}
+    //         height="48"
+    //         onClick={() => {
+    //           this.setState({ isOpen: true, imageUrl: allcerts })
+    //         }}
+    //       />
+    //     ),
+    //   },
+    // ]
+
     return (
       <div>
         <Card
@@ -326,13 +497,12 @@ class Cert extends React.Component {
             </Select>
 
             <Button type="primary" disabled={!hasSelected} loading={loading}>
-              Generate
+              ISSUE
             </Button>
             <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span>
           </div>
-          {console.log('From the future', allcerts)}
           <Table
             columns={this.state.columns}
             dataSource={this.state.rows}

@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: '/template',
-    component: loadable(() => import('pages/template')),
+    component: loadable(() => import('pages/template/')),
     exact: true,
   },
   {
