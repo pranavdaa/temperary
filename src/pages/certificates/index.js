@@ -159,7 +159,7 @@ class Cert extends React.Component {
           // object a me se key name ka value dhundana hai
           sorter: (a, b) => a[key].length - b[key].length,
           sortDirections: ['descend', 'ascend'],
-          ...this.getColumnSearchProps(this.generateKey(key)),
+          // ...this.getColumnSearchProps(this.generateKey(key)),
         }
       })
 
