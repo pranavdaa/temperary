@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import * as assetActions from '../../../redux/assets/actions'
 import feedActions from '../../../redux/activityFeed/actions'
 
-
 class DashboardAlpha extends React.Component {
   state = {
     loading: false,
@@ -32,6 +31,7 @@ class DashboardAlpha extends React.Component {
   uploadImage = () => {
     let imageData = {}
     imageData[this.state.uploadFor] = this.state.fileList[0]
+    console.log('yahoooooooooooo', imageData)
     this.props.updateAsset('default', imageData)
   }
 
@@ -52,7 +52,7 @@ class DashboardAlpha extends React.Component {
 
   render() {
     const { modalVisible, loading, fileList } = this.state
-    const { feed, assets } = this.props;
+    const { feed, assets } = this.props
 
     const tableColumns = [
       {
@@ -107,13 +107,13 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              {
-                assets.default.orgLogoPath ?
-                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`} />
-                  :
-                  <Empty />
-              }
-
+              {assets.default.orgLogoPath ? (
+                <ProfileHeadCard
+                  backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`}
+                />
+              ) : (
+                <Empty />
+              )}
             </Card>
           </Col>
 
@@ -126,12 +126,13 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              {
-                assets.default.orgStampPath ?
-                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`} />
-                  :
-                  <Empty />
-              }
+              {assets.default.orgStampPath ? (
+                <ProfileHeadCard
+                  backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`}
+                />
+              ) : (
+                <Empty />
+              )}
             </Card>
           </Col>
           <Col md={6}>
@@ -143,12 +144,15 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              {
-                assets.default.authoritySigPath ?
-                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.authoritySigPath}`} />
-                  :
-                  <Empty />
-              }
+              {assets.default.authoritySigPath ? (
+                <ProfileHeadCard
+                  backgroundImage={`${window.SITE_CONFIG.API_URL}/${
+                    assets.default.authoritySigPath
+                  }`}
+                />
+              ) : (
+                <Empty />
+              )}
             </Card>
           </Col>
           <Col md={6}>
@@ -160,12 +164,13 @@ class DashboardAlpha extends React.Component {
                 </div>
               }
             >
-              {
-                assets.default.backgroundPath ?
-                  <ProfileHeadCard backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`} />
-                  :
-                  <Empty />
-              }
+              {assets.default.backgroundPath ? (
+                <ProfileHeadCard
+                  backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`}
+                />
+              ) : (
+                <Empty />
+              )}
             </Card>
           </Col>
         </Row>
@@ -204,13 +209,16 @@ class DashboardAlpha extends React.Component {
 
 const mapStateToProps = state => ({
   feed: state.activityFeed,
-  assets: { ...state.assets }
+  assets: { ...state.assets },
 })
 
 const mapDispatchToProps = dispatch => ({
   getActivityFeed: () => dispatch(feedActions()),
   updateAsset: (assetType, assetPaths) => dispatch(assetActions.updateAsset(assetType, assetPaths)),
-  getDefaultAssets: payload => dispatch(assetActions.fetchDefaultAssets(payload))
+  getDefaultAssets: payload => dispatch(assetActions.fetchDefaultAssets(payload)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardAlpha)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DashboardAlpha)

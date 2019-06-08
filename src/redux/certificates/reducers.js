@@ -14,13 +14,12 @@ export default (state = initialState, action) => {
       }
 
     case types.GET_ALL_CERTIFICATES:
-      console.log('HIT')
       return {
         ...state,
         generated: action.payload,
       }
     case types.CHANGE_CERTIFICATE_STATES:
-      state[action.payload.assetType] = { ...action.payload.assets }
+      console.log('HITTTTTTTTTTTTTTTTTTTTTTTTTTTT')
       return state
 
     default:

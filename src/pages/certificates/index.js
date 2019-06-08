@@ -27,6 +27,7 @@ class Cert extends React.Component {
     rows: [],
     templates: {},
   }
+
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -78,6 +79,7 @@ class Cert extends React.Component {
   })
 
   handleSearch = (selectedKeys, confirm) => {
+    console.log('Selected Key', selectedKeys)
     confirm()
     this.setState({ searchText: selectedKeys[0] })
   }
@@ -88,6 +90,7 @@ class Cert extends React.Component {
   }
 
   onSelectChange = selectedRowKeys => {
+    console.log('Selected Row Key', selectedRowKeys)
     this.setState({ selectedRowKeys })
   }
 
@@ -148,9 +151,9 @@ class Cert extends React.Component {
 
   componentWillReceiveProps(newProps) {
     const { allcerts } = newProps
-    var tempColumns = []
+    console.log(allcerts)
 
-    const temIdArray = allcerts.map(value => value.orgId)
+    var tempColumns = []
     if (allcerts[0]) {
       tempColumns = Object.keys(newProps.allcerts[0].details).map(key => {
         return {
@@ -298,6 +301,14 @@ class Cert extends React.Component {
 
   render() {
     const { allcerts } = this.props
+    console.log('HI there from allcert', allcerts)
+    const tempArray = this.state.selectedRowKeys.map(value => allcerts[value]._id)
+    const certificateIdString = tempArray.join()
+    console.log('friendssssssss', certificateIdString)
+    const statusChange = () => {
+      // TODO:: Make "Issued" text dynamic
+      this.props.changeCertificateState(certificateIdString, 'issued')
+    }
     let {
       loading,
       selectedRowKeys,
@@ -496,7 +507,7 @@ class Cert extends React.Component {
               <Option value="c11">c11</Option>
             </Select>
 
-            <Button type="primary" disabled={!hasSelected} loading={loading}>
+            <Button type="primary" onClick={statusChange} disabled={!hasSelected} loading={loading}>
               ISSUE
             </Button>
             <span style={{ marginLeft: 8 }}>
@@ -518,9 +529,13 @@ class Cert extends React.Component {
 const mapStateToProps = state => ({
   allcerts: state.certificates.generated,
 })
+//is used for dispatching actions to the store.
 const mapDispatchToProps = dispatch => ({
   getAllCertificates: () => dispatch(getCertificate.getAllCertificates()),
+  changeCertificateState: (certificateId, status) =>
+    dispatch(getCertificate.changeCertificateState(certificateId, status)),
 })
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

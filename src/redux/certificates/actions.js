@@ -44,28 +44,29 @@ export const getAllCertificates = payload => dispatch => {
       console.error(`Error while fetching cert data ${err}`)
     })
 }
-export const updateCertificateStatus = (assetType, assetPaths) => dispatch => {
-  let formData = new FormData()
-  Object.keys(assetPaths).forEach(key => {
-    formData.append(key, assetPaths[key].originFileObj)
-  })
+export const changeCertificateState = (certificateId, status) => dispatch => {
+  //creates an object
 
   axios
-    .patch(`/certificates`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${constants.JWT}`,
+    .patch(
+      `/certificates`,
+      { certificateIds: certificateId, status: status },
+      {
+        headers: {
+          Authorization: `Bearer ${constants.JWT}`,
+        },
       },
-    })
+    )
     .then(res => {
+      console.log('From Action response', res)
       if (res.data.status === 'success') {
-        fetchDefaultAssets(assetType)
+        dispatch(getAllCertificates())
       } else {
         console.error('Failed to update certificates')
       }
     })
     .catch(error => {
-      console.error(`Error while updating Org Templates: ${error}`)
+      console.error(`Error while updating Certificates: ${error}`)
     })
 }
 export const generateCertificates = payload => dispatch => {
@@ -73,6 +74,7 @@ export const generateCertificates = payload => dispatch => {
   axios
     .post(`/certificates`, payload, {
       headers: {
+        // for file upload only use multipart
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${constants.JWT}`,
       },
@@ -90,8 +92,4 @@ export const generateCertificates = payload => dispatch => {
     .catch(error => {
       console.error(`Error while updating Cert Templates: ${error}`)
     })
-}
-
-export const changeCertificateState = payload => dispatch => {
-  //on success dispatch getAllCertificates
 }
