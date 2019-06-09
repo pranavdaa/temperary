@@ -42,6 +42,11 @@ const routes = [
     component: loadable(() => import('pages/certificates')),
     exact: true,
   },
+  {
+    path: '/createcertificate',
+    component: loadable(() => import('pages/createcertificate')),
+    exact: true,
+  },
   //landing Page
   {
     path: '/landingpage/one',

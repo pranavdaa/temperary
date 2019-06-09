@@ -3,7 +3,7 @@ import { Col, Row } from 'antd'
 import Previewer from '../component/previewer'
 import AceEditor from 'react-ace'
 import { connect } from 'react-redux'
-import { setTemplate } from 'redux/template/actions'
+import { setTemplate } from '../../../redux/createtemplate/actions'
 import { loadImage } from 'utils/helpers/'
 import 'brace/mode/json'
 import 'brace/theme/monokai'
@@ -95,22 +95,12 @@ class Index extends Component {
     this.state = {
       pageComponents: this.pageComponents,
     }
-    this.fetchImage()
     this.props.setTemplate({ template: this.pageComponents })
   }
 
-  fetchImage = async () => {
-    this.setState({
-      images: {
-        orgLogo: await loadImage(this.props.templates.orgLogo),
-        authoritySig: await loadImage(this.props.templates.authoritySig),
-        orgStamp: await loadImage(this.props.templates.orgStamp),
-        background: await loadImage(this.props.templates.background),
-      },
-    })
-  }
-
   render() {
+    console.log('tor bsbbsbsbs', this.props.img)
+    console.log(this.state)
     let editorValue = this.state.pageComponents
     let pageComponents = this.state.pageComponents
     try {
@@ -152,7 +142,7 @@ class Index extends Component {
           </div>
         </Col>
         <Col md={12}>
-          <Previewer docJson={pageComponents} images={this.state.images} />
+          <Previewer docJson={pageComponents} images={this.props.img} />
         </Col>
       </Row>
     )

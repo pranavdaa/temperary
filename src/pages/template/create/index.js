@@ -21,6 +21,7 @@ class Adder extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
+    console.log('Agar aisa hai tuh me hi kar leta hun', this.props.location.state)
     return (
       <div>
         <Card title={'Provide Course Detail'}>

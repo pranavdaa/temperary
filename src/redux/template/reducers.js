@@ -18,7 +18,8 @@ export default (state = initialState, action) => {
 
     case types.TEMPLATE_SET:
       return { ...state, ...action.payload }
-
+    case types.TEMPLATE_POST:
+      return { ...state, ...action.payload }
     default:
       return state
   }

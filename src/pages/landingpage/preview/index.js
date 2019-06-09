@@ -31,7 +31,7 @@ class Index extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log('maghiyaaaa', this.props.templates.template)
     console.log(this.state)
     let editorValue = this.state.pageComponents
     let pageComponents = this.state.pageComponents

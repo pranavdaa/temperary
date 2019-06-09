@@ -430,7 +430,7 @@ class Cert extends React.Component {
         <Card
           title="Certificates"
           extra={
-            <Link to="/template/create">
+            <Link to="/template">
               <Button type="primary" icon="plus">
                 Generate New Certificate
               </Button>

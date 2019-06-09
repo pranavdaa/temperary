@@ -82,7 +82,7 @@ class DashboardAlpha extends React.Component {
               <div className="utils__title">
                 <div className={'text-center'}>
                   <i className="lnr lnr-plus-circle" />
-                  <NavLink to="/template/create">
+                  <NavLink to="/template">
                     {' '}
                     <strong>Generated New Certificate</strong>{' '}
                   </NavLink>
@@ -93,7 +93,12 @@ class DashboardAlpha extends React.Component {
           {/* TODO [Parmesh]: Make the activity Feed scrollable */}
           <Col lg={12}>
             <Card title={'Recently Activities'}>
-              <Table pagination={false} columns={tableColumns} dataSource={feed} />
+              <Table
+                pagination={{ pageSize: 10 }}
+                scroll={{ y: 150 }}
+                columns={tableColumns}
+                dataSource={feed}
+              />
             </Card>
           </Col>
         </Row>
@@ -103,7 +108,7 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Organisation Logo</span>
-                  <span onClick={e => this.showModal('orgLogo')}> Edit</span>
+                  <span onClick={e => this.showModal('orgLogo')}>Edit</span>
                 </div>
               }
             >

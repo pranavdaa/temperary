@@ -1,13 +1,10 @@
 import React from 'react'
 import { Steps, Button, message } from 'antd'
-
 import styles from './index.module.scss'
 import FormUpload from './one/form.js'
 import { Card } from 'antd'
 import Editor from './editor'
 import Preview from './preview/index'
-import { connect } from 'react-redux'
-import { createTemplate } from '../../redux/template/actions'
 const Step = Steps.Step
 
 class LandOne extends React.Component {
@@ -17,7 +14,6 @@ class LandOne extends React.Component {
       current: 0,
     }
   }
-
   next = () => {
     const current = this.state.current + 1
     this.setState({ current })
@@ -32,6 +28,8 @@ class LandOne extends React.Component {
   }
 
   render() {
+    console.log('Have i reached', this.props.location.state.template)
+
     const steps = [
       {
         title: 'First',
@@ -46,7 +44,7 @@ class LandOne extends React.Component {
         title: 'Second',
         content: (
           <div>
-            <Editor />
+            <Editor img={this.props.location.state.template} />
           </div>
         ),
       },
@@ -54,7 +52,7 @@ class LandOne extends React.Component {
         title: 'Last',
         content: (
           <div>
-            <Preview />
+            <Preview img={this.props.location.state.template} />
           </div>
         ),
       },
@@ -67,7 +65,7 @@ class LandOne extends React.Component {
 
     return (
       <Card>
-        <h3 className="text-center mb-5">Create Certificates Template</h3>
+        <h3 className="text-center mb-5">Edit and Preview Selected Certificate</h3>
         <div>
           <Steps current={current}>
             {steps.map(item => (
@@ -89,37 +87,12 @@ class LandOne extends React.Component {
                 Next
               </Button>
             )}
-            {current === steps.length - 1 && (
-              <Button
-                type="primary"
-                onClick={() => {
-                  this.props.createTemplate('never', this.props.templateData)
-                }}
-              >
-                Save
-              </Button>
-            )}
+            {current === steps.length - 1 && <Button type="primary">Save</Button>}
           </div>
         </div>
       </Card>
     )
   }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.templateData.templateId) {
-      this.props.history.push('/dashboard')
-    }
-  }
 }
 
-const mapStateToProps = state => ({
-  templateData: state.templates,
-})
-
-const mapDispatchToProps = dispatch => ({
-  createTemplate: (assetType, params) => dispatch(createTemplate(assetType, params)),
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LandOne)
+export default LandOne

@@ -43,6 +43,10 @@ export const createTemplate = (assetType, params) => dispatch => {
     })
     .then(res => {
       if (res.data.status === 'success') {
+        dispatch({
+          type: types.TEMPLATE_POST,
+          payload: { templateId: res.data.msg.templateId },
+        })
       } else {
         console.error('Failed to fetch Org Data')
       }
