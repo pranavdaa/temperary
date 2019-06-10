@@ -150,10 +150,24 @@ class EditableTable extends React.Component {
     this.setState({ editingKey: key })
   }
 
+  infoPass = () => {
+    console.log('this.props.test._id', this.props.test._id)
+    console.log('this.props.test', this.props.test)
+    console.log('this.props.pendingCertificates', this.props.pendingCertificates)
+    this.props.generateCertificates(
+      this.props.test._id,
+      this.props.test.template,
+      this.props.pendingCertificates,
+    )
+  }
+
   componentWillMount() {
     const { pendingCertificates } = this.props
     var tempColumns = []
-    console.log(pendingCertificates)
+    this.infoPass()
+    console.log('Pranasv MAhesjwri', this.props.test.template)
+    console.log('knoswe mahurat ka otes', this.props.test._id)
+    console.log('patmesh', pendingCertificates)
     if (pendingCertificates[0]) {
       //Add Custom Columns from Excel Sheet
       tempColumns = Object.keys(pendingCertificates[0]).map(key => {
@@ -254,7 +268,7 @@ class EditableTable extends React.Component {
 
   render() {
     const { generateCertificates } = this.props
-
+    console.log('olalalalalalala', generateCertificates)
     const components = {
       body: {
         cell: EditableCell,
@@ -286,7 +300,11 @@ class EditableTable extends React.Component {
         <Button
           type="primary"
           //pass
-          onClick={generateCertificates()}
+          onClick={() => {
+            this.infoPass()
+
+            this.props.history.push('/certificates')
+          }}
         >
           Generate
         </Button>
@@ -297,10 +315,12 @@ class EditableTable extends React.Component {
 
 const mapStateToProps = state => ({
   pendingCertificates: state.certificates.pending,
+  test: state.templateId,
 })
 
 const mapDispatchToProps = dispatch => ({
-  generateCertificates: payload => dispatch(generateCertificates(payload)),
+  generateCertificates: (id, template, sheetdata) =>
+    dispatch(generateCertificates(id, template, sheetdata)),
 })
 
 const EditableFormTable = Form.create()(EditableTable)

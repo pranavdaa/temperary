@@ -19,8 +19,12 @@ export default (state = initialState, action) => {
         generated: action.payload,
       }
     case types.CHANGE_CERTIFICATE_STATES:
-      console.log('HITTTTTTTTTTTTTTTTTTTTTTTTTTTT')
       return state
+    case types.GENERATE_CERTIFICATES:
+      console.log('HITTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+      return {
+        ...state,
+      }
 
     default:
       return state

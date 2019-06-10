@@ -69,21 +69,28 @@ export const changeCertificateState = (certificateId, status) => dispatch => {
       console.error(`Error while updating Certificates: ${error}`)
     })
 }
-export const generateCertificates = payload => dispatch => {
+export const generateCertificates = (id, template, sheetdata) => dispatch => {
   //on success dispatch getAllCertificates
+  console.log('Ml and AI', template)
+
+  var finalsheet = JSON.stringify(sheetdata)
   axios
-    .post(`/certificates`, payload, {
-      headers: {
-        // for file upload only use multipart
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${constants.JWT}`,
+    .post(
+      `/certificates`,
+      { templateId: id, certificate: template, sheetData: finalsheet },
+
+      {
+        headers: {
+          // for file upload only use multipart
+          Authorization: `Bearer ${constants.JWT}`,
+        },
       },
-    })
+    )
     .then(res => {
+      console.log('lets start with a bang', res)
       if (res.data.status === 'success') {
         dispatch({
           type: types.GENERATE_CERTIFICATES,
-          payload: res.data.msg,
         })
       } else {
         console.error('Failed to fetch Cert Data')

@@ -29,10 +29,11 @@ export const setTemplate = payload => dispatch => {
 
 export const createTemplate = (assetType, params) => dispatch => {
   let formData = new FormData()
-
+  console.log('Paramssss', params)
   Object.keys(params).forEach(key => {
     formData.append(key, params[key])
   })
+  formData.set('template', JSON.stringify(params.template))
 
   axios
     .post(`/template`, formData, {

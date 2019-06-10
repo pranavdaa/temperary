@@ -93,6 +93,7 @@ class LandOne extends React.Component {
               <Button
                 type="primary"
                 onClick={() => {
+                  console.log('bhole', this.props.templateData)
                   this.props.createTemplate('never', this.props.templateData)
                 }}
               >

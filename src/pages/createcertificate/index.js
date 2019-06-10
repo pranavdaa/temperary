@@ -5,6 +5,8 @@ import FormUpload from './one/form.js'
 import { Card } from 'antd'
 import Editor from './editor'
 import Preview from './preview/index'
+import { connect } from 'react-redux'
+import setingTemplate from '../../redux/certificateIdPass/actions'
 const Step = Steps.Step
 
 class LandOne extends React.Component {
@@ -13,6 +15,8 @@ class LandOne extends React.Component {
     this.state = {
       current: 0,
     }
+    console.log('VAibhav', props.location.state)
+    props.setingTemplate(props.location.state.template)
   }
   next = () => {
     const current = this.state.current + 1
@@ -27,6 +31,9 @@ class LandOne extends React.Component {
     this.setState({ current })
   }
 
+  componentWillMount() {
+    console.log('Component has mounted')
+  }
   render() {
     console.log('Have i reached', this.props.location.state.template)
 
@@ -87,7 +94,11 @@ class LandOne extends React.Component {
                 Next
               </Button>
             )}
-            {current === steps.length - 1 && <Button type="primary">Save</Button>}
+            {current === steps.length - 1 && (
+              <Button onClick={() => this.props.history.push('/upload/exl')} type="primary">
+                Save
+              </Button>
+            )}
           </div>
         </div>
       </Card>
@@ -95,4 +106,11 @@ class LandOne extends React.Component {
   }
 }
 
-export default LandOne
+const mapDispatchToProps = dispatch => ({
+  setingTemplate: payload => dispatch(setingTemplate(payload)),
+})
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LandOne)
