@@ -5,26 +5,9 @@ import FormUpload from './one/form.js'
 import { Card } from 'antd'
 import Editor from './editor'
 import Preview from './preview/index'
-import ReactExport from 'react-data-export'
+import { connect } from 'react-redux'
+import setingTemplate from '../../redux/certificateIdPass/actions'
 const Step = Steps.Step
-
-const ExcelFile = ReactExport.ExcelFile
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn
-
-class Download extends React.Component {
-  render() {
-    return (
-      <ExcelFile element={<button>Download Data</button>}>
-        <ExcelSheet name="Employees">
-          <ExcelColumn label="Name" value="name" />
-          <ExcelColumn label="Wallet Money" value="amount" />
-          <ExcelColumn label="Gender" value="sex" />
-        </ExcelSheet>
-      </ExcelFile>
-    )
-  }
-}
 
 class LandOne extends React.Component {
   constructor(props) {
@@ -48,23 +31,9 @@ class LandOne extends React.Component {
     this.setState({ current })
   }
 
-<<<<<<< HEAD
   componentWillMount() {
     console.log('Component has mounted')
   }
-=======
-  // download = () => {
-  //   return (
-  //     <ExcelFile element={<button>Download Data</button>}>
-  //       <ExcelSheet name="Employees">
-  //         <ExcelColumn label="Name" value="name" />
-  //         <ExcelColumn label="Wallet Money" value="amount" />
-  //         <ExcelColumn label="Gender" value="sex" />
-  //       </ExcelSheet>
-  //     </ExcelFile>
-  //   )
-  // }
->>>>>>> 10a24c272e86ad6be98a7889628427236a8bf552
   render() {
     console.log('Have i reached', this.props.location.state.template)
 
@@ -126,21 +95,9 @@ class LandOne extends React.Component {
               </Button>
             )}
             {current === steps.length - 1 && (
-<<<<<<< HEAD
               <Button onClick={() => this.props.history.push('/upload/exl')} type="primary">
                 Save
               </Button>
-=======
-              // <Button
-              //   onClick={() => {
-              //     this.props.history.push('/upload/exl')
-              //   }}
-              //   type="primary"
-              // >
-              //   Save
-              // </Button>
-              <Download />
->>>>>>> 10a24c272e86ad6be98a7889628427236a8bf552
             )}
           </div>
         </div>
