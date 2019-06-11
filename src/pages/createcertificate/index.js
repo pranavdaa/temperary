@@ -33,7 +33,7 @@ class Download extends React.Component {
             type="button"
             class="btn btn-primary"
           >
-            Download Data
+            Next
           </button>
         }
       >

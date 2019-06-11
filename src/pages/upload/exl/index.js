@@ -63,8 +63,7 @@ class UploadExcel extends React.Component {
                   <Icon type="inbox" />
                 </p>
                 <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibit from uploading company data
-                  or other band files
+                  Upload the downloaded sheet with the details provided in the Sheet
                 </p>
               </Upload.Dragger>
               <br />
