@@ -7,8 +7,43 @@ import Editor from './editor'
 import Preview from './preview/index'
 import { connect } from 'react-redux'
 import setingTemplate from '../../redux/certificateIdPass/actions'
+import ReactExport from 'react-data-export'
+
+const ExcelFile = ReactExport.ExcelFile
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn
 const Step = Steps.Step
 
+class Download extends React.Component {
+  getcolumns = () => {
+    return this.props.info.map(impinfo => {
+      return <ExcelColumn label={impinfo} value={impinfo} />
+    })
+  }
+  render() {
+    console.log('ek balti pani', this.props.info)
+
+    return (
+      <ExcelFile
+        element={
+          <button
+            onClick={e => {
+              this.props.history.push('/upload/exl')
+            }}
+            type="button"
+            class="btn btn-primary"
+          >
+            Download Data
+          </button>
+        }
+      >
+        <ExcelSheet data={[]} name="Employees">
+          {this.getcolumns()}
+        </ExcelSheet>
+      </ExcelFile>
+    )
+  }
+}
 class LandOne extends React.Component {
   constructor(props) {
     super(props)
@@ -34,9 +69,36 @@ class LandOne extends React.Component {
   componentWillMount() {
     console.log('Component has mounted')
   }
-  render() {
-    console.log('Have i reached', this.props.location.state.template)
 
+  getColumns = () => {
+    var columes = []
+    if (this.props.temp.templates.template) {
+      this.props.temp.templates.template.components.forEach(function(value) {
+        if (value.text) {
+          var re = /{(.*?)}/g
+          var s = value.text
+          var m
+
+          do {
+            m = re.exec(s)
+            if (m) {
+              columes.push(m[0].replace('{', '').replace('}', ''))
+            }
+          } while (m)
+        }
+      })
+    }
+    return columes
+  }
+  render() {
+    // console.log(
+    //   'On the Way',
+    //   this.props.temp.templates.template.components.map(function(value) {
+    //     return value
+    //   }),
+    // )
+
+    console.log('mehnat', this.getColumns())
     const steps = [
       {
         title: 'First',
@@ -95,9 +157,9 @@ class LandOne extends React.Component {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button onClick={() => this.props.history.push('/upload/exl')} type="primary">
-                Save
-              </Button>
+              // <Button type="primary">
+              <Download history={this.props.history} info={this.getColumns()} />
+              // </Button>
             )}
           </div>
         </div>
@@ -106,11 +168,14 @@ class LandOne extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  temp: state,
+})
 const mapDispatchToProps = dispatch => ({
   setingTemplate: payload => dispatch(setingTemplate(payload)),
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LandOne)
