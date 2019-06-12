@@ -84,7 +84,10 @@ class Index extends React.Component {
               showUploadList={{ showPreviewIcon: false }}
               fileList={uploadList.orgLogo && [uploadList.orgLogo]}
               onPreview={false}
-              onChange={e => this.handleChange(e, 'orgLogo')}
+              onChange={e => {
+                console.log('Welcome to Gotahm city', e)
+                this.handleChange(e, 'orgLogo')
+              }}
             >
               <Button>
                 <Icon type="orglogo" /> Click to upload

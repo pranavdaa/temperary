@@ -15,6 +15,17 @@ class Index extends React.Component {
     })
   }
 
+  yearOption = () => {
+    let options = []
+    var dt = new Date()
+    var Year = dt.getFullYear()
+    var i
+    console.log(Year)
+    for (i = Year - 10; i < Year + 10; i++) {
+      options.push(<Option value={i}>{i}</Option>)
+    }
+    return options
+  }
   render() {
     const { getFieldDecorator } = this.props.form
 
@@ -33,8 +44,7 @@ class Index extends React.Component {
               placeholder="Select Year"
               // onChange={this.handleSelectChange}
             >
-              <Option value="20019">2019</Option>
-              <Option value="2020">2020</Option>
+              {this.yearOption()}
             </Select>,
           )}
         </Form.Item>

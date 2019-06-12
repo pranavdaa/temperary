@@ -37,7 +37,7 @@ class Download extends React.Component {
           </button>
         }
       >
-        <ExcelSheet data={[]} name="Employees">
+        <ExcelSheet data={[]} name="Sheet1">
           {this.getcolumns()}
         </ExcelSheet>
       </ExcelFile>

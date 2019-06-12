@@ -1,5 +1,6 @@
 import React from 'react'
 import { Steps, Button, message } from 'antd'
+import { Link } from 'react-router-dom'
 
 import styles from './index.module.scss'
 import FormUpload from './one/form.js'
@@ -66,8 +67,15 @@ class LandOne extends React.Component {
     const { current } = this.state
 
     return (
-      <Card>
-        <h3 className="text-center mb-5">Create Certificates Template</h3>
+      <Card
+        title="Create Certificates Template"
+        extra={
+          <Link to="/dashboard">
+            <Button type="primary">Skip</Button>
+          </Link>
+        }
+        bordered={false}
+      >
         <div>
           <Steps current={current}>
             {steps.map(item => (

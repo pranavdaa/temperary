@@ -40,6 +40,7 @@ export const updateAsset = (assetType, assetPaths) => dispatch => {
       },
     })
     .then(res => {
+      console.log('response from action updateassets', res)
       if (res.data.status === 'success') {
         fetchDefaultAssets(assetType)
       } else {

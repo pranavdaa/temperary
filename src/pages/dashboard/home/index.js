@@ -90,11 +90,10 @@ class DashboardAlpha extends React.Component {
               </div>
             </Card>
           </Col>
-          {/* TODO [Parmesh]: Make the activity Feed scrollable */}
           <Col lg={12}>
             <Card title={'Recently Activities'}>
               <Table
-                pagination={{ pageSize: 10 }}
+                pagination={false}
                 scroll={{ y: 150 }}
                 columns={tableColumns}
                 dataSource={feed}
