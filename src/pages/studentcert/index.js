@@ -151,9 +151,6 @@ class EditableTable extends React.Component {
   }
 
   infoPass = () => {
-    console.log('this.props.test._id', this.props.test._id)
-    console.log('this.props.test', this.props.test)
-    console.log('this.props.pendingCertificates', this.props.pendingCertificates)
     this.props.generateCertificates(
       this.props.test._id,
       this.props.test.template,
@@ -168,18 +165,31 @@ class EditableTable extends React.Component {
     console.log('Pranasv MAhesjwri', this.props.test.template)
     console.log('knoswe mahurat ka otes', this.props.test._id)
     console.log('patmesh', pendingCertificates)
+
     if (pendingCertificates[0]) {
-      //Add Custom Columns from Excel Sheet
       tempColumns = Object.keys(pendingCertificates[0]).map(key => {
-        return {
-          title: key,
-          dataIndex: this.generateKey(key),
-          sorter: (a, b) => a.sname.length - b.sname.length,
-          sortDirections: ['descend', 'ascend'],
-          ...this.getColumnSearchProps(this.generateKey(key)),
-          editable: true,
+        console.log('Values', pendingCertificates[0][key])
+        if (isNaN(pendingCertificates[0][key])) {
+          return {
+            title: key,
+            dataIndex: this.generateKey(key),
+            sorter: (a, b) => a[this.generateKey(key).length] - b[this.generateKey(key).length],
+            sortDirections: ['descend', 'ascend'],
+            ...this.getColumnSearchProps(this.generateKey(key)),
+            editable: true,
+          }
+        } else {
+          return {
+            title: key,
+            dataIndex: this.generateKey(key),
+            sorter: (a, b) => a[this.generateKey(key).length] - b[this.generateKey(key).length],
+            sortDirections: ['descend', 'ascend'],
+            ...this.getColumnSearchProps(this.generateKey(key)),
+            editable: true,
+          }
         }
       })
+      console.log('Bossssss', tempColumns)
 
       //Add 'Edit' & 'preview' columns
       tempColumns.push(
@@ -274,7 +284,8 @@ class EditableTable extends React.Component {
         cell: EditableCell,
       },
     }
-
+    console.log('Imp Info', this.state.columns)
+    console.log('Or this', this.state.columns)
     var formData = new FormData()
     formData.append('templateId', 'TEMPLATE_ID')
     formData.append('certificate', JSON.stringify('TEMPLATE_JSON'))
@@ -291,10 +302,7 @@ class EditableTable extends React.Component {
             // dataSource={data}
             columns={this.state.columns}
             rowClassName="editable-row"
-            pagination={{
-              onChange: this.cancel,
-              // onChange={onChange}
-            }}
+            pagination={false}
           />
         </EditableContext.Provider>
         <Button

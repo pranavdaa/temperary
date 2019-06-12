@@ -308,18 +308,20 @@ class Cert extends React.Component {
     return newRows
   }
 
+  statusChange = () => {
+    const { allcerts } = this.props
+    const tempArray = this.state.selectedRowKeys.map(value => allcerts[value]._id)
+    const certificateIdString = tempArray.join()
+
+    // TODO:: Make "Issued" text dynamic
+    this.props.changeCertificateState(certificateIdString, 'issued')
+  }
   render() {
     this.state.rows.map(value => console.log('got it ?', value))
     console.log('this is state', this.state.status)
     const { allcerts } = this.props
     console.log('HI there from allcert', allcerts)
-    const tempArray = this.state.selectedRowKeys.map(value => allcerts[value]._id)
-    const certificateIdString = tempArray.join()
-    console.log('friendssssssss', certificateIdString)
-    const statusChange = () => {
-      // TODO:: Make "Issued" text dynamic
-      this.props.changeCertificateState(certificateIdString, 'issued')
-    }
+
     let {
       loading,
       selectedRowKeys,
@@ -530,7 +532,12 @@ class Cert extends React.Component {
               <Option value="c11">c11</Option>
             </Select>
 
-            <Button type="primary" onClick={statusChange} disabled={!hasSelected} loading={loading}>
+            <Button
+              type="primary"
+              onClick={this.statusChange}
+              disabled={!hasSelected}
+              loading={loading}
+            >
               ISSUE
             </Button>
             <span style={{ marginLeft: 8 }}>
