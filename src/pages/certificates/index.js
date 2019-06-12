@@ -26,6 +26,7 @@ class Cert extends React.Component {
     columns: [],
     rows: [],
     templates: {},
+    status: 'inprocess',
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -280,26 +281,36 @@ class Cert extends React.Component {
         this.getTemplateId(tempId)
       })
 
-      let data = allcerts.map((certificate, index) => {
-        let tempRow = certificate.details
-
-        tempRow.key = index
-        tempRow.templateId = certificate.templateId
-        return {
-          ...tempRow,
-        }
-      })
-
       this.setState(prevState => {
         return {
           ...prevState,
-          rows: data,
+          rows: allcerts,
         }
       })
     }
   }
 
+  getRows = () => {
+    let newRows = []
+    console.log(this.state.status)
+    this.state.rows.forEach((certificate, index) => {
+      if (certificate.status === this.state.status || this.state.status === 'All') {
+        let tempRow = certificate.details
+
+        tempRow.key = index
+        tempRow.templateId = certificate.templateId
+
+        newRows.push({
+          ...tempRow,
+        })
+      }
+    })
+    return newRows
+  }
+
   render() {
+    this.state.rows.map(value => console.log('got it ?', value))
+    console.log('this is state', this.state.status)
     const { allcerts } = this.props
     console.log('HI there from allcert', allcerts)
     const tempArray = this.state.selectedRowKeys.map(value => allcerts[value]._id)
@@ -457,11 +468,23 @@ class Cert extends React.Component {
           )}
 
           <div className="table-operations ">
-            <Select style={{ width: 130 }} className="float-right mb-2" defaultValue="InProgress">
+            <Select
+              onChange={e => {
+                this.setState(preData => {
+                  return {
+                    ...preData,
+                    status: e,
+                  }
+                })
+              }}
+              style={{ width: 130 }}
+              className="float-right mb-2"
+              defaultValue="InProgress"
+            >
               <OptGroup label="Status">
                 <Option value="All">ALL</Option>
-                <Option value="InProgress">InProgress</Option>
-                <Option value="Issued">Issued</Option>
+                <Option value="inprocess">InProgress</Option>
+                <Option value="issued">Issued</Option>
               </OptGroup>
             </Select>
             <Select
@@ -514,9 +537,10 @@ class Cert extends React.Component {
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span>
           </div>
+          {console.log('Filteresd ROwsss', this.getRows())}
           <Table
             columns={this.state.columns}
-            dataSource={this.state.rows}
+            dataSource={this.getRows()}
             scroll={{ x: 1300 }}
             onChange={this.handleChange}
             rowSelection={rowSelection}
