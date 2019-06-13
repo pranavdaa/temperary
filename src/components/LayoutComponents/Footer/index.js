@@ -11,8 +11,8 @@ const Footer = () => (
             <div className={styles.copyright}>
               <span>
                 © 2019{' '}
-                <a href="http://mediatec.org/" target="_blank" rel="noopener noreferrer">
-                  Mediatec Software
+                <a href="https://towardsblockchain.com//" target="_blank" rel="noopener noreferrer">
+                  TowardsBlockchain
                 </a>
                 <br />
                 All rights reserved

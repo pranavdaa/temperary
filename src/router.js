@@ -86,6 +86,11 @@ const routes = [
     component: loadable(() => import('pages/studentcert')),
     exact: true,
   },
+  {
+    path: '/verify',
+    component: loadable(() => import('pages/verify')),
+    exact: true,
+  },
 
   // End New Routes
 

@@ -107,7 +107,9 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Organisation Logo</span>
-                  <span onClick={e => this.showModal('orgLogo')}>Edit</span>
+                  <span className="text-primary" onClick={e => this.showModal('orgLogo')}>
+                    Edit
+                  </span>
                 </div>
               }
             >
@@ -126,7 +128,10 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Organisation Stamp</span>
-                  <span onClick={e => this.showModal('orgStamp')}> Edit</span>
+                  <span className="text-primary" onClick={e => this.showModal('orgStamp')}>
+                    {' '}
+                    Edit
+                  </span>
                 </div>
               }
             >
@@ -144,7 +149,10 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Authority Signature</span>
-                  <span onClick={e => this.showModal('authoritySig')}> Edit</span>
+                  <span className="text-primary" onClick={e => this.showModal('authoritySig')}>
+                    {' '}
+                    Edit
+                  </span>
                 </div>
               }
             >
@@ -164,7 +172,10 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Background</span>
-                  <span onClick={e => this.showModal('background')}> Edit</span>
+                  <span className="text-primary" onClick={e => this.showModal('background')}>
+                    {' '}
+                    Edit
+                  </span>
                 </div>
               }
             >

@@ -4,14 +4,13 @@ import React, { Component, Fragment } from 'react'
 import { Upload, message, Card, Row, Col } from 'antd'
 
 //Assets
-import upload from '../../../../assets/signy/images/arrows@2x.png'
 
+import upload from '../../../assets/signy/images/arrows@2x.png'
 class Index extends Component {
   render() {
     var fileList = []
     console.log(this.props.data)
     const { readBdoc } = this.props.data
-    console.log('readBdoc from verify', readBdoc)
     const props = {
       /* onRemove: file => {
                 console.log("REMOVED: ", fileList)
@@ -28,8 +27,8 @@ class Index extends Component {
           <Card>
             <Fragment>
               <center>
-                <h1>For Verification</h1>
-                <p>Verify your Bdoc without sign-in</p>
+                <h1>Preview</h1>
+                <p>Verify your Bdoc</p>
                 <Upload.Dragger
                   className="py-2"
                   {...props}

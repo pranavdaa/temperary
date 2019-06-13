@@ -7,9 +7,9 @@ class TopBar extends React.Component {
     return (
       <div className={styles.topbar}>
         <div className="mr-4">
-          <i className="lnr lnr-home"></i>
+          <i className="lnr lnr-home" />
         </div>
-        <div>Welcome Ashish(dummy) </div>
+        <div>Welcome To Signy </div>
         <ProfileMenu />
       </div>
     )

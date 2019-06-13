@@ -68,7 +68,8 @@
     "redux-saga": "^1.0.1",
     "redux-thunk": "^2.3.0",
     "store": "^2.0.12",
-    "web3": "^1.0.0-beta.55"
+    "web3": "^1.0.0-beta.55",
+    "xlsx": "^0.14.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.3.0",

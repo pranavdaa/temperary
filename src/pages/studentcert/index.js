@@ -5,6 +5,7 @@ import Highlighter from 'react-highlight-words'
 //Redux
 import { connect } from 'react-redux'
 import { getAllCertificates, generateCertificates } from '../../redux/certificates/actions'
+import { Link } from 'react-router-dom'
 
 const EditableContext = React.createContext()
 
@@ -168,26 +169,27 @@ class EditableTable extends React.Component {
 
     if (pendingCertificates[0]) {
       tempColumns = Object.keys(pendingCertificates[0]).map(key => {
-        console.log('Values', pendingCertificates[0][key])
-        if (isNaN(pendingCertificates[0][key])) {
-          return {
-            title: key,
-            dataIndex: this.generateKey(key),
-            sorter: (a, b) => a[this.generateKey(key).length] - b[this.generateKey(key).length],
-            sortDirections: ['descend', 'ascend'],
-            ...this.getColumnSearchProps(this.generateKey(key)),
-            editable: true,
-          }
-        } else {
-          return {
-            title: key,
-            dataIndex: this.generateKey(key),
-            sorter: (a, b) => a[this.generateKey(key).length] - b[this.generateKey(key).length],
-            sortDirections: ['descend', 'ascend'],
-            ...this.getColumnSearchProps(this.generateKey(key)),
-            editable: true,
-          }
+        console.log('sjbcj ', isNaN(pendingCertificates[0][key]))
+        // if (isNaN(pendingCertificates[0][key])) {
+
+        return {
+          title: key,
+          dataIndex: key,
+          sorter: (a, b) => a[key] - b[key],
+          sortDirections: ['descend', 'ascend'],
+          ...this.getColumnSearchProps(key),
+          editable: true,
         }
+        // } else {
+        // return {
+        //   title: key,
+        //   dataIndex: key,
+        //   sorter: (a, b) => a[key].length - b[key].length,
+        //   sortDirections: ['descend', 'ascend'],
+        //   ...this.getColumnSearchProps(key),
+        //   editable: true,
+        // }
+        // }
       })
       console.log('Bossssss', tempColumns)
 
@@ -232,7 +234,12 @@ class EditableTable extends React.Component {
           title: 'Preview',
           dataIndex: 'preview',
           key: 'x',
-          render: () => <a href="javascript:;">Link</a>,
+
+          render: () => (
+            <Link to="/verify" className="text-primary">
+              Home
+            </Link>
+          ),
         },
       )
 

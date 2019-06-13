@@ -39,7 +39,7 @@ class Download extends React.Component {
       >
         <ExcelSheet data={[]} name="Sheet1">
           {this.getcolumns()}
-          <ExcelColumn label="Email(compulsory)" value="email" />
+          <ExcelColumn label="Email" value="email" />
         </ExcelSheet>
       </ExcelFile>
     )
