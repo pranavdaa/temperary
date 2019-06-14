@@ -6,7 +6,13 @@ import { connect } from 'react-redux'
 import { getTemplates } from '../../redux/template/actions'
 import { sendtemplate } from '../../redux/templatedata/actions'
 class Template extends React.Component {
-  state = { selected: false }
+  constructor(props) {
+    super(props)
+    this.state = { selected: false }
+
+    this.props = { templates: [] }
+  }
+
   componentWillMount = () => {
     const { getTemplates } = this.props
     getTemplates()
