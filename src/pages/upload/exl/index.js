@@ -1,35 +1,55 @@
 import React from 'react'
-import { Card, Icon, Upload, Row, Col, Button } from 'antd'
+import { Card, Icon, Upload, Row, Col, Button, message } from 'antd'
 // import {withRouter} from "react-router-dom"
 //Redux
 import { connect } from 'react-redux'
 import { parseExcelToJson } from '../../../redux/certificates/actions'
-
 class UploadExcel extends React.Component {
   state = {
     fileList: [],
     uploading: false,
   }
 
+  // handleUpload = () => {
+  //   const { fileList } = this.state
+  //   if (fileList.length == 0) {
+  //     message.error(`You have not uploaded the file`)
+  //   } else {
+  //     const formData = new FormData()
+
+  //     fileList.forEach(file => {
+  //       formData.append(`excel`, file)
+  //     })
+  //     this.props.parseExcelToJson(formData)
+
+  //     this.setState({
+  //       uploading: true,
+  //     })
+  //   }
+  // }
+
   handleUpload = () => {
     const { fileList } = this.state
-
+    console.log(fileList)
     const formData = new FormData()
+    if (fileList.length == 0) {
+      message.error(`You have not uploaded the file`)
+    } else {
+      fileList.forEach(file => {
+        formData.append(`excel`, file)
+      })
 
-    fileList.forEach(file => {
-      formData.append(`excel`, file)
-    })
+      this.props.parseExcelToJson(formData)
 
-    this.props.parseExcelToJson(formData)
-
-    this.setState({
-      uploading: true,
-    })
+      this.setState({
+        uploading: true,
+      })
+    }
   }
-
   render() {
     var { fileList, uploading } = this.state
     var { pendingCertificates } = this.props
+    console.log('Wpopopopo', pendingCertificates.length)
 
     //TODO: FIX the error in the logs
     if (pendingCertificates.length > 0) {
@@ -38,44 +58,50 @@ class UploadExcel extends React.Component {
 
     let uploadProps = {
       beforeUpload: file => {
-        this.setState(state => ({
-          fileList: [...state.fileList, file],
-        }))
         return false
       },
-      onRemove: file => {
+      onChange: ({ file }) => {
         this.setState(state => ({
-          fileList: state.fileList.filter(_file => _file.name != file.name),
+          fileList: [file],
         }))
       },
+      onRemove: () => {
+        this.setState(state => ({
+          fileList: [],
+        }))
+      },
+
       fileList,
     }
 
     return (
-      <Card>
-        <h3 className="text-center mb-5">Upload Excel Sheet</h3>
-
+      <div>
         <Row type="flex" justify="center">
-          <Col span={12}>
-            <center>
-              <Upload.Dragger {...uploadProps}>
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibit from uploading company data
-                  or other band files
-                </p>
-              </Upload.Dragger>
-              <br />
-              <br />
-              <Button type="primary" onClick={this.handleUpload}>
-                Next
-              </Button>
-            </center>
+          <Col xs={24} md={20} lg={12} xl={10}>
+            <Card>
+              <h3 className="text-center mb-5">Upload Excel Sheet</h3>
+              <center>
+                <Upload.Dragger {...uploadProps}>
+                  {console.log('GOT', uploadProps)}
+                  <p className="ant-upload-drag-icon">
+                    <Icon type="upload" />
+                  </p>
+                  <p className="ant-upload-hint">
+                    Upload the Downloaded Excel Sheet with the details provided in the sheet
+                  </p>
+                </Upload.Dragger>
+                <br />
+                <br />
+              </center>
+            </Card>
           </Col>
         </Row>
-      </Card>
+        <center>
+          <Button type="primary" onClick={this.handleUpload}>
+            Next
+          </Button>
+        </center>
+      </div>
     )
   }
 }

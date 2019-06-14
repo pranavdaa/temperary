@@ -16,7 +16,7 @@ class Index extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log('Imagesssss', this.props)
 
     return (
       <Row type="flex" justify={'center'}>

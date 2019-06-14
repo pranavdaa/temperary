@@ -51,8 +51,8 @@ class LandOne extends React.Component {
     this.state = {
       current: 0,
     }
-    console.log('VAibhav', props.location.state)
-    props.setingTemplate(props.location.state.template)
+    console.log('VAibhav', this.props.temp.certificateData.template)
+    props.setingTemplate(this.props.temp.certificateData.template)
   }
   next = () => {
     const current = this.state.current + 1
@@ -114,15 +114,16 @@ class LandOne extends React.Component {
         title: 'Second',
         content: (
           <div>
-            <Editor img={this.props.location.state.template} />
+            <Editor img={{ ...this.props.temp.certificateData.template }} />
           </div>
         ),
       },
       {
-        title: 'Last',
+        title: 'Third',
         content: (
           <div>
-            <Preview img={this.props.location.state.template} />
+            {console.log('Templatesssssss', this.props.temp.certificateData.template)}
+            <Preview img={{ ...this.props.temp.certificateData.template }} />
           </div>
         ),
       },
@@ -135,13 +136,21 @@ class LandOne extends React.Component {
 
     return (
       <Card>
-        <h3 className="text-center mb-5">Edit and Preview Selected Certificate</h3>
         <div>
           <Steps current={current}>
             {steps.map(item => (
               <Step key={item.title} title={item.title} />
             ))}
           </Steps>
+          <div>
+            {current == 0 ? (
+              <h3 className="text-center my-5">Enter Certificate Info</h3>
+            ) : current == 1 ? (
+              <h3 className="text-center my-5">Edit Selected Certificate</h3>
+            ) : (
+              <h3 className="text-center my-5">Preview Selected Certificate</h3>
+            )}
+          </div>
           <div className={styles.stepscontent}>{steps[current].content}</div>
           <div className={styles.stepsaction}>
             {current > 0 && (

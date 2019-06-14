@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom'
 import feedActions from '../../redux/template/actions'
 import { connect } from 'react-redux'
 import { getTemplates } from '../../redux/template/actions'
-
+import { sendtemplate } from '../../redux/templatedata/actions'
 class Template extends React.Component {
   state = { selected: false }
   componentWillMount = () => {
     const { getTemplates } = this.props
     getTemplates()
   }
-
   render() {
     console.log('May be', this.state.selected)
     const { templates } = this.props
@@ -25,14 +24,16 @@ class Template extends React.Component {
         key: 'name',
         render: (name, template) => {
           return (
-            <Link
-              to={{
-                pathname: '/createcertificate',
-                state: { template: template },
-              }}
-            >
-              <p>{name}</p>
-            </Link>
+            <div>
+              <p
+                onClick={() => {
+                  this.props.sendtemplate({ template })
+                  this.props.history.push('/createcertificate')
+                }}
+              >
+                {name}
+              </p>
+            </div>
           )
         },
       },
@@ -45,7 +46,7 @@ class Template extends React.Component {
     return (
       <div>
         <Card
-          title="Templates"
+          title="Select Template"
           extra={
             <Link to="/landingpage/one">
               <Button type="primary" icon="plus">
@@ -72,6 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getTemplates: () => dispatch(getTemplates()),
+  sendtemplate: payload => dispatch(sendtemplate(payload)),
 })
 export default connect(
   mapStateToProps,

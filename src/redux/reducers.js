@@ -10,6 +10,7 @@ import bdocCreator from './bdoc/create/reducers'
 import bdocReader from './bdoc/read/reducers'
 import certificates from './certificates/reducers'
 import templateId from './certificateIdPass/reducers'
+import certificateData from './templatedata/reducers'
 export default history =>
   combineReducers({
     router: connectRouter(history),
@@ -23,4 +24,5 @@ export default history =>
     bdocReader,
     certificates,
     templateId,
+    certificateData,
   })
