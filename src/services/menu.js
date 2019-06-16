@@ -22,7 +22,7 @@ export async function getLeftMenuData() {
       title: 'Billing',
       key: 'settingsBilling',
       url: '/settings/billing',
-      icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
+      icon: 'fa fa-usd',
     },
   ]
 }

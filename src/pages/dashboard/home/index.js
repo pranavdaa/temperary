@@ -121,6 +121,7 @@ class DashboardAlpha extends React.Component {
             >
               {assets.default.orgLogoPath ? (
                 <ProfileHeadCard
+                  className={styles.img_card_img}
                   backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgLogoPath}`}
                 />
               ) : (
@@ -149,6 +150,7 @@ class DashboardAlpha extends React.Component {
             >
               {assets.default.orgStampPath ? (
                 <ProfileHeadCard
+                  className={styles.img_card_img}
                   backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.orgStampPath}`}
                 />
               ) : (
@@ -176,6 +178,7 @@ class DashboardAlpha extends React.Component {
             >
               {assets.default.authoritySigPath ? (
                 <ProfileHeadCard
+                  className={styles.img_card_img}
                   backgroundImage={`${window.SITE_CONFIG.API_URL}/${
                     assets.default.authoritySigPath
                   }`}
@@ -205,6 +208,7 @@ class DashboardAlpha extends React.Component {
             >
               {assets.default.backgroundPath ? (
                 <ProfileHeadCard
+                  className={styles.img_card_img}
                   backgroundImage={`${window.SITE_CONFIG.API_URL}/${assets.default.backgroundPath}`}
                 />
               ) : (

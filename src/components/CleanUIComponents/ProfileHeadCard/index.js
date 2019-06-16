@@ -8,12 +8,11 @@ class ProfileHeadCard extends React.Component {
     return (
       <div className={styles.card}>
         <div
-          className={styles.head}
+          className={styles.head + ' ' + this.props.className}
           style={{
             backgroundImage: `url('${this.props.backgroundImage}')`,
           }}
-        >
-        </div>
+        />
       </div>
     )
   }

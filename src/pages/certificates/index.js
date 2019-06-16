@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Card, Table } from 'antd'
 import { Link } from 'react-router-dom'
-import { Select } from 'antd'
+import { Select, notification } from 'antd'
 import { Input, Icon } from 'antd'
 import Highlighter from 'react-highlight-words'
 import Lightbox from 'react-image-lightbox'
@@ -318,9 +318,23 @@ class Cert extends React.Component {
         selectedRowKeys: [],
         loading: false,
       })
+      notification.success({
+        message: 'Certificate Issued',
+        description: 'Bdoc created kindly check your mail to view the bDoc',
+        onClick: () => {
+          console.log('Notification Clicked!')
+        },
+      })
     }, 1000)
     // TODO:: Make "Issued" text dynamic
     this.props.changeCertificateState(certificateIdString, 'issued')
+    // notification.success({
+    //   message: 'Certificate Created',
+    //   description: 'You can click on generate certificate to view your created template',
+    //   onClick: () => {
+    //     console.log('Notification Clicked!')
+    //   },
+    // })
   }
   render() {
     this.state.rows.map(value => console.log('got it ?', value))

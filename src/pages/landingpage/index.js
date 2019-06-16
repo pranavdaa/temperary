@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import styles from './index.module.scss'
 import FormUpload from './one/form.js'
-import { Card } from 'antd'
+import { Card, notification } from 'antd'
 import Editor from './editor'
 import Preview from './preview/index'
 import { connect } from 'react-redux'
@@ -31,7 +31,15 @@ class LandOne extends React.Component {
     const current = this.state.current - 1
     this.setState({ current })
   }
-
+  openNotification = () => {
+    notification.success({
+      message: 'Certificate Created',
+      description: 'You can click on generate certificate to view your created template',
+      onClick: () => {
+        console.log('Notification Clicked!')
+      },
+    })
+  }
   render() {
     const steps = [
       {
@@ -103,6 +111,7 @@ class LandOne extends React.Component {
                 onClick={() => {
                   console.log('bhole', this.props.templateData)
                   this.props.createTemplate('never', this.props.templateData)
+                  this.openNotification()
                 }}
               >
                 Save

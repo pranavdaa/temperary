@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Select, Button, Upload, Icon, Input } from 'antd'
+import { Form, Select, Button, Upload, Icon, Input, AutoComplete } from 'antd'
 import * as assetActions from '../../../redux/assets/actions'
 import { setTemplate } from 'redux/template/actions'
 import { connect } from 'react-redux'
@@ -41,9 +41,12 @@ class Index extends React.Component {
             rules: [{ required: true, message: 'Please select the Year!' }],
           })(
             <Select
+              defaultValue={this.yearOption()[0].props.value}
+              // defaultValue={this.yearCurrent()}
               placeholder="Select Year"
               // onChange={this.handleSelectChange}
             >
+              {console.log('teri marzi', this.yearOption()[0].props.value)}
               {this.yearOption()}
             </Select>,
           )}
@@ -51,12 +54,20 @@ class Index extends React.Component {
         <Form.Item label="Course Name:">
           {getFieldDecorator('pcn', {
             rules: [{ required: true, message: 'Please enter Course Name!' }],
-          })(<Input />)}
+          })(
+            <AutoComplete placeholder="Blockchain101">
+              <Input />
+            </AutoComplete>,
+          )}
         </Form.Item>
         <Form.Item label="Batch Info:">
           {getFieldDecorator('pbi', {
             rules: [{ required: true, message: 'Please enter Batch info!' }],
-          })(<Input />)}
+          })(
+            <AutoComplete placeholder="Batch-1">
+              <Input />
+            </AutoComplete>,
+          )}
         </Form.Item>
       </Form>
     )

@@ -230,17 +230,18 @@ class EditableTable extends React.Component {
             )
           },
         },
-        {
-          title: 'Preview',
-          dataIndex: 'preview',
-          key: 'x',
+        //Changed just for now will be added later after the dubai demo may be
+        // {
+        //   title: 'Preview',
+        //   dataIndex: 'preview',
+        //   key: 'x',
 
-          render: () => (
-            <Link to="/verify" className="text-primary">
-              Home
-            </Link>
-          ),
-        },
+        //   render: () => (
+        //     <Link to="/verify" className="text-primary">
+        //       Home
+        //     </Link>
+        //   ),
+        // },
       )
 
       //Set Columns to Local State
@@ -302,6 +303,7 @@ class EditableTable extends React.Component {
     return (
       <Card>
         <EditableContext.Provider value={this.props.form}>
+          <h3 className="text-center mb-3 mt-1 ">Uploaded Excel Sheet Data </h3>
           <Table
             components={components}
             bordered
