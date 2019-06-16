@@ -313,6 +313,7 @@ class EditableTable extends React.Component {
           />
         </EditableContext.Provider>
         <Button
+          className="mt-3"
           type="primary"
           //pass
           onClick={() => {

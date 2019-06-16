@@ -80,9 +80,7 @@ class ProfileMenu extends React.Component {
     return (
       <Dropdown overlay={menu} trigger={['click']} onVisibleChange={this.addCount}>
         <div className={styles.dropdown}>
-          <Badge count={count}>
-            <Avatar className={styles.avatar} shape="square" size="large" icon="user" />
-          </Badge>
+          <Avatar className={styles.avatar} shape="square" size="large" icon="user" />
         </div>
       </Dropdown>
     )

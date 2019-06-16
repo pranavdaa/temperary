@@ -309,10 +309,16 @@ class Cert extends React.Component {
   }
 
   statusChange = () => {
+    this.setState({ loading: true })
     const { allcerts } = this.props
     const tempArray = this.state.selectedRowKeys.map(value => allcerts[value]._id)
     const certificateIdString = tempArray.join()
-
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      })
+    }, 1000)
     // TODO:: Make "Issued" text dynamic
     this.props.changeCertificateState(certificateIdString, 'issued')
   }
@@ -335,7 +341,10 @@ class Cert extends React.Component {
       selectedRowKeys,
       onChange: this.onSelectChange,
     }
+    console.log('Eth India', allcerts)
+    console.log('selectedRowKeys', selectedRowKeys)
     const hasSelected = selectedRowKeys.length > 0
+    console.log('hasrh', allcerts[selectedRowKeys])
     sortedInfo = sortedInfo || {}
     filteredInfo = filteredInfo || {}
     // const columns = [

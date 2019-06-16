@@ -32,6 +32,10 @@ class Template extends React.Component {
           return (
             <div>
               <p
+                style={{
+                  cursor: 'pointer',
+                }}
+                className="text-primary"
                 onClick={() => {
                   this.props.sendtemplate({ template })
                   this.props.history.push('/createcertificate')

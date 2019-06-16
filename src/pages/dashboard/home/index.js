@@ -107,7 +107,13 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Organisation Logo</span>
-                  <span className="text-primary" onClick={e => this.showModal('orgLogo')}>
+                  <span
+                    className="text-primary"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={e => this.showModal('orgLogo')}
+                  >
                     Edit
                   </span>
                 </div>
@@ -128,7 +134,13 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Organisation Stamp</span>
-                  <span className="text-primary" onClick={e => this.showModal('orgStamp')}>
+                  <span
+                    className="text-primary"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={e => this.showModal('orgStamp')}
+                  >
                     {' '}
                     Edit
                   </span>
@@ -149,7 +161,13 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Authority Signature</span>
-                  <span className="text-primary" onClick={e => this.showModal('authoritySig')}>
+                  <span
+                    className="text-primary"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={e => this.showModal('authoritySig')}
+                  >
                     {' '}
                     Edit
                   </span>
@@ -172,7 +190,13 @@ class DashboardAlpha extends React.Component {
               title={
                 <div className={styles.img_card_title}>
                   <span>Background</span>
-                  <span className="text-primary" onClick={e => this.showModal('background')}>
+                  <span
+                    className="text-primary"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={e => this.showModal('background')}
+                  >
                     {' '}
                     Edit
                   </span>
