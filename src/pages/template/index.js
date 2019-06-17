@@ -3,7 +3,7 @@ import { Button, Card, Table } from 'antd'
 import { Link } from 'react-router-dom'
 import feedActions from '../../redux/template/actions'
 import { connect } from 'react-redux'
-import { getTemplates } from '../../redux/template/actions'
+import { getTemplates } from '../../redux/templateget/actions'
 import { sendtemplate } from '../../redux/templatedata/actions'
 class Template extends React.Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class Template extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  templates: [...state.templates],
+  templates: [...state.templateget],
 })
 
 const mapDispatchToProps = dispatch => ({
