@@ -150,13 +150,15 @@ class EditableTable extends React.Component {
   edit(key) {
     this.setState({ editingKey: key })
   }
-
   infoPass = () => {
     this.props.generateCertificates(
       this.props.test._id,
       this.props.test.template,
       this.props.pendingCertificates,
     )
+    setTimeout(() => {
+      this.props.history.push('/certificates')
+    }, 1000)
   }
 
   componentWillMount() {
@@ -320,8 +322,6 @@ class EditableTable extends React.Component {
           //pass
           onClick={() => {
             this.infoPass()
-
-            this.props.history.push('/certificates')
           }}
         >
           Generate

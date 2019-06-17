@@ -8,6 +8,7 @@ import Lightbox from 'react-image-lightbox'
 const { Option, OptGroup } = Select
 import 'react-image-lightbox/style.css'
 import style from './style.module.scss'
+import { getAllCertificates } from '../../redux/getallcertificates/actions'
 import * as getCertificate from '../../redux/certificates/actions'
 import { connect } from 'react-redux'
 import axios from '../../utils/cors/axios'
@@ -581,11 +582,11 @@ class Cert extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  allcerts: state.certificates.generated,
+  allcerts: state.allcertificates.generated,
 })
 //is used for dispatching actions to the store.
 const mapDispatchToProps = dispatch => ({
-  getAllCertificates: () => dispatch(getCertificate.getAllCertificates()),
+  getAllCertificates: () => dispatch(getAllCertificates()),
   changeCertificateState: (certificateId, status) =>
     dispatch(getCertificate.changeCertificateState(certificateId, status)),
 })
