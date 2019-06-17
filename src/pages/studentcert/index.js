@@ -162,7 +162,7 @@ class EditableTable extends React.Component {
   componentWillMount() {
     const { pendingCertificates } = this.props
     var tempColumns = []
-    this.infoPass()
+    //   this.infoPass()
     console.log('Pranasv MAhesjwri', this.props.test.template)
     console.log('knoswe mahurat ka otes', this.props.test._id)
     console.log('patmesh', pendingCertificates)
